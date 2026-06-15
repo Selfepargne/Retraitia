@@ -1,7 +1,7 @@
 [
   {
     "key": "pharmacien", 
-    "slug": "retraite-pharmacien",
+    "slug": "retraite-pharmacien", 
     "nom": "Pharmacien",
     "professionLong": "pharmacien libéral",
     "regime": "CAVP",
