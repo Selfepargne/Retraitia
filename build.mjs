@@ -153,7 +153,7 @@ for (const p of pages) {
 }
 
 // ── 7. sitemap.xml (page d'accueil + toutes les pages métier) ───────────
-const sitemapUrls = [`${BASE_URL}/`, ...pages.map(p => `${BASE_URL}/${p.slug}.html`)];
+const sitemapUrls = [`${BASE_URL}/`, ...pages.map(p => `${BASE_URL}/${p.slug}`)];
 const sitemap =
   '<?xml version="1.0" encoding="UTF-8"?>\n' +
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
