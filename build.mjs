@@ -8,7 +8,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 
 // ── 1. Configuration (le SEUL endroit pour le domaine) ──────────────────
-const BASE_URL = 'https://retraitia.fr';   // ← mets ton domaine réel ici
+const BASE_URL = 'https://retraitia.com';   // ← mets ton domaine réel ici
 const OUT_DIR = '.';
 
 // ── 2. Petite bibliothèque d'icônes (inner SVG, trait = couleur courante) ─
