@@ -1,0 +1,85 @@
+[
+  {
+    "key": "CARPIMKO",
+    "slug": "retraite-carpimko",
+    "nom": "CARPIMKO",
+    "nomLong": "la CARPIMKO",
+    "updateDate": "Juin 2026",
+
+    "meta": {
+      "title": "Retraite CARPIMKO 2026 — fonctionnement, cotisations, points | retraitia",
+      "description": "CARPIMKO : caisse de retraite des kinésithérapeutes, infirmiers libéraux, orthophonistes, orthoptistes et pédicures-podologues. Fonctionnement, cotisations, points, professions affiliées et simulation gratuite en 3 minutes.",
+      "ogTitle": "Retraite CARPIMKO — fonctionnement, cotisations, points",
+      "ogDesc": "Comprenez les trois régimes CARPIMKO et estimez votre pension en 3 minutes. Gratuit, sans inscription, bilan IA personnalisé."
+    },
+
+    "hero": {
+      "badge": "✓ Guide Retraite CARPIMKO 2026",
+      "titre": "Comprendre votre retraite CARPIMKO et estimer votre future pension",
+      "sousTitre": "Découvrez le fonctionnement de votre caisse, estimez votre pension et identifiez votre manque à gagner en quelques minutes grâce à notre simulateur IA.",
+      "ctaLabel": "Commencer ma simulation",
+      "bullets": ["Gratuit", "Sans inscription", "3 minutes", "Données 2026"],
+      "carte": {
+        "professionsLabel": "5 professions paramédicales",
+        "fonctionnementLabel": "3 régimes obligatoires",
+        "typeRegimeLabel": "Points + répartition",
+        "lienOfficielLabel": "carpimko.com",
+        "lienOfficielUrl": "https://www.carpimko.com"
+      }
+    },
+
+    "coupOeil": {
+      "publicConcerne": "Kinésithérapeutes, infirmiers libéraux, orthophonistes, orthoptistes, pédicures-podologues exerçant en libéral.",
+      "fonctionnement": "Trois régimes cumulatifs et obligatoires : base, complémentaire (RCO), invalidité-décès.",
+      "typeRetraite": "Retraite par points, financée par répartition.",
+      "reversion": "Versée au conjoint survivant sous conditions d'âge et de ressources, à un taux fixé par les statuts de la caisse.",
+      "creation": "1949",
+      "siteOfficielLabel": "carpimko.com",
+      "siteOfficielUrl": "https://www.carpimko.com"
+    },
+
+    "presentationHtml": "<h2>Qu'est-ce que la CARPIMKO&nbsp;?</h2>\n <p>La <b>CARPIMKO</b> (Caisse Autonome de Retraite et de Prévoyance des Infirmiers, Masseurs-kinésithérapeutes, pédicures-podologues, Orthophonistes et Orthoptistes) est l'organisme chargé de gérer la retraite obligatoire — et la prévoyance invalidité-décès — de cinq professions paramédicales libérales. Créée en 1949, elle fait partie du réseau des caisses de retraite des professions libérales, aux côtés de la CARMF, la CAVP ou la CIPAV.</p>\n\n <h3>Sa mission</h3>\n <p>Contrairement au régime général des salariés, les professionnels libéraux ne cotisent pas à l'Assurance Retraite mais à leur caisse de profession. La CARPIMKO collecte les cotisations de ses affiliés, gère leurs droits à la retraite tout au long de leur carrière, et verse les pensions une fois l'âge légal atteint. Elle assure également une couverture invalidité-décès, indépendante du calcul de la pension de retraite.</p>\n\n <h3>Une caisse, trois régimes</h3>\n <p>Ce qui distingue la CARPIMKO, c'est l'empilement de trois régimes aux règles de calcul différentes&nbsp;:</p>\n <ul>\n <li><b>Le régime de base</b>, aligné sur celui de l'ensemble des professions libérales (CNAVPL), calculé par points selon les cotisations versées chaque année.</li>\n <li><b>Le régime complémentaire (RCO)</b>, propre à la CARPIMKO, avec des cotisations réparties en classes selon le revenu, et un rendement du point spécifique à la caisse.</li>\n <li><b>Le régime invalidité-décès</b>, qui protège l'affilié et sa famille en cas d'incapacité ou de décès prématuré, sans effet direct sur le montant futur de la pension de retraite.</li>\n </ul>",
+
+    "fonctionnementCartes": [
+      { "titre": "Retraite de base", "texte": "Alignée sur le régime des professions libérales (CNAVPL). Calculée en points acquis chaque année selon les cotisations versées, dans la limite d'un revenu plafonné." },
+      { "titre": "Retraite complémentaire (RCO)", "texte": "Régime propre à la CARPIMKO. Cotisation répartie en classes de revenus, avec un nombre de points variable selon la classe choisie ou atteinte." },
+      { "titre": "Invalidité", "texte": "Garantit un revenu de remplacement en cas d'incapacité totale ou partielle d'exercer, sous conditions d'ancienneté d'affiliation." },
+      { "titre": "Décès", "texte": "Verse un capital et, le cas échéant, une rente au conjoint et aux enfants à charge en cas de décès de l'affilié avant la retraite." },
+      { "titre": "Système de points", "texte": "Chaque euro cotisé (base et complémentaire) est converti en points selon la valeur d'achat du point en vigueur l'année de cotisation. La pension dépend du total de points multiplié par leur valeur de service au moment du départ." },
+      { "titre": "Réversion", "texte": "En cas de décès de l'affilié retraité, une partie de sa pension peut être reversée au conjoint survivant, sous conditions d'âge et parfois de ressources selon le régime concerné." }
+    ],
+
+    "chiffresCles": [
+      { "label": "Valeur du point", "value": "Revalorisée chaque année", "note": "Base et complémentaire ont chacune leur propre valeur d'achat et de service du point." },
+      { "label": "Nombre d'affiliés", "value": "≈ 100 000", "note": "Toutes professions confondues, actifs et retraités." },
+      { "label": "Pension moyenne", "value": "≈ 1 100 €/mois", "note": "Tous régimes CARPIMKO confondus — l'une des plus modestes des professions libérales." },
+      { "label": "Cotisation moyenne", "value": "Variable par classe", "note": "Base proportionnelle au revenu (plafonnée), complémentaire par classes forfaitaires." },
+      { "label": "Rendement du régime", "value": "Variable selon le régime", "note": "Le rendement (pension générée par euro cotisé) diffère entre base et complémentaire." },
+      { "label": "Âge moyen de départ", "value": "≈ 65 ans", "note": "Proche de l'âge du taux plein, faute d'anticipation suffisante chez de nombreux affiliés." }
+    ],
+
+    "erreursFrequentes": [
+      { "titre": "Ne pas anticiper la faiblesse de la retraite complémentaire", "texte": "Le régime complémentaire (RCO) génère des points plus lentement qu'un régime pleinement proportionnel au revenu — un écart qui se creuse sur toute une carrière." },
+      { "titre": "Croire que la pension couvrira le niveau de vie actuel", "texte": "Avec une pension moyenne autour de 1 100 €/mois, l'écart avec le revenu d'activité dépasse souvent 70 %." },
+      { "titre": "Ignorer les possibilités de déduction fiscale", "texte": "Les cotisations à un PER individuel sont déductibles du revenu imposable, un levier fréquemment sous-utilisé par les professions libérales." },
+      { "titre": "Attendre les dernières années pour préparer sa retraite", "texte": "Plus l'épargne démarre tôt, plus l'effet des intérêts composés réduit l'effort mensuel nécessaire pour combler l'écart." },
+      { "titre": "Confondre les trois régimes CARPIMKO", "texte": "Base, complémentaire et invalidité-décès ont des règles de calcul distinctes — une mauvaise lecture du relevé de carrière fausse l'estimation de la pension." },
+      { "titre": "Négliger le rachat de trimestres ou de points", "texte": "Le rachat de trimestres d'études ou d'années incomplètes peut être pertinent, mais son intérêt doit être calculé au cas par cas avant d'être engagé." }
+    ],
+
+    "faqSub": "Les questions les plus fréquentes des affiliés CARPIMKO.",
+    "faq": [
+      { "q": "Qui doit cotiser à la CARPIMKO ?", "a": "Tout masseur-kinésithérapeute, infirmier libéral, orthophoniste, orthoptiste ou pédicure-podologue exerçant en libéral, dès le début de son activité, quel que soit son mode d'exercice (cabinet individuel, société, remplacement)." },
+      { "q": "Quel est l'âge légal de départ à la retraite CARPIMKO ?", "a": "L'âge légal d'ouverture des droits est de 64 ans, avec un taux plein atteint à 67 ans ou dès que le nombre de trimestres requis est validé, tous régimes confondus." },
+      { "q": "Comment sont calculés les points CARPIMKO ?", "a": "Le régime de base convertit les cotisations en points selon une valeur d'achat annuelle ; le régime complémentaire (RCO) attribue des points selon la classe de cotisation. La pension finale correspond au nombre total de points multiplié par leur valeur de service au moment du départ." },
+      { "q": "Pourquoi la pension CARPIMKO est-elle réputée modeste ?", "a": "La cotisation complémentaire étant organisée par classes forfaitaires plutôt que strictement proportionnelle au revenu réel, le nombre de points accumulés progresse plus lentement que dans d'autres régimes de professions libérales à cotisation pleinement proportionnelle." },
+      { "q": "Peut-on cumuler la CARPIMKO avec une activité salariée ?", "a": "Oui. En cas d'activité mixte libérale et salariée, chaque activité cotise à son régime respectif (CARPIMKO pour la partie libérale, régime général pour la partie salariée), et les pensions sont calculées séparément puis cumulées au moment du départ." },
+      { "q": "Comment améliorer sa retraite CARPIMKO ?", "a": "Plusieurs leviers existent : choisir une classe de cotisation complémentaire plus élevée si les revenus le permettent, racheter des trimestres ou points pour des années incomplètes, et compléter par une épargne retraite individuelle (PER) dont la fiscalité est adaptée aux professions libérales." },
+      { "q": "Que couvre le régime invalidité-décès de la CARPIMKO ?", "a": "Il garantit un revenu de remplacement en cas d'incapacité d'exercer, ainsi qu'un capital et une éventuelle rente pour le conjoint et les enfants à charge en cas de décès de l'affilié avant la liquidation de sa retraite." }
+    ],
+
+    "pourquoiPreparerHtml": "<p>Face à une pension CARPIMKO qui couvre rarement plus d'un tiers du revenu d'activité, anticiper n'est pas une option de confort&nbsp;: c'est le seul levier qui reste entièrement entre vos mains. Plus une stratégie d'épargne démarre tôt — PER, diversification, optimisation fiscale — plus l'effort mensuel nécessaire pour combler l'écart diminue, grâce aux intérêts composés. À l'inverse, chaque année d'attente rend le rattrapage plus coûteux.</p><p>Notre simulateur IA analyse votre situation CARPIMKO spécifique — profession, âge, revenu actuel — et vous montre en 3 minutes votre écart de niveau de vie projeté ainsi que les leviers concrets pour le réduire.</p>",
+
+    "ctaTitle": "Estimez votre retraite CARPIMKO en 3 minutes"
+  }
+]
