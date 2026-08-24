@@ -12,22 +12,22 @@
      ════════════════════════════════════════════════════════════════════════ -->
 
 <!-- ── SEO : title + meta (générés depuis professions.json au build) ─────── -->
-<title>{{TITLE}}</title>
-<meta name="description" content="{{META_DESC}}">
-<link rel="canonical" href="{{CANONICAL}}">
+<title>Retraite du Médecin Libéral — CARMF, montant & simulation | retraitia</title>
+<meta name="description" content="Médecin libéral : comprenez votre retraite CARMF (base, complémentaire, ASV), estimez votre pension en 3 minutes et découvrez vos leviers d'optimisation. Gratuit, sans inscription.">
+<link rel="canonical" href="https://retraitia.com/retraite-medecin">
 
 <!-- ── Open Graph / Twitter ──────────────────────────────────────────────── -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="retraitia">
-<meta property="og:url" content="{{CANONICAL}}">
-<meta property="og:title" content="{{OG_TITLE}}">
-<meta property="og:description" content="{{OG_DESC}}">
-<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:url" content="https://retraitia.com/retraite-medecin">
+<meta property="og:title" content="Retraite du Médecin Libéral — CARMF, montant & simulation">
+<meta property="og:description" content="Estimez votre pension de médecin en 3 minutes et découvrez vos leviers d'optimisation. Gratuit, sans inscription, bilan IA personnalisé.">
+<meta property="og:image" content="https://retraitia.com/og/retraite-medecin.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{OG_TITLE}}">
-<meta name="twitter:description" content="{{OG_DESC}}">
-<meta name="twitter:image" content="{{OG_IMAGE}}">
+<meta name="twitter:title" content="Retraite du Médecin Libéral — CARMF, montant & simulation">
+<meta name="twitter:description" content="Estimez votre pension de médecin en 3 minutes et découvrez vos leviers d'optimisation. Gratuit, sans inscription, bilan IA personnalisé.">
+<meta name="twitter:image" content="https://retraitia.com/og/retraite-medecin.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -541,8 +541,112 @@ footer { padding: 30px 24px 46px; }
      SCHEMA.ORG — généré au build depuis professions.json (FAQ + fil d'ariane).
      Le texte des Q/R DOIT être identique à la FAQ visible (exigence Google).
      ════════════════════════════════════════════════════════════════════════ -->
-{{BREADCRUMB_SCHEMA}}
-{{FAQ_SCHEMA}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://retraitia.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Retraite par métier",
+      "item": "https://retraitia.com/retraite"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Médecin libéral",
+      "item": "https://retraitia.com/retraite-medecin"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "À quelle caisse de retraite est affilié un médecin libéral ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tout médecin exerçant en libéral cotise à la CARMF (Caisse Autonome de Retraite des Médecins de France). Elle gère le régime de base (pour le compte de la CNAVPL), le régime complémentaire, le régime ASV des médecins conventionnés et un régime invalidité-décès."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel est l'âge de départ à la retraite d'un médecin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'âge légal d'ouverture des droits est de 64 ans, et le taux plein s'obtient à 67 ans ou avec 172 trimestres. La CARMF n'applique pas de décote sur les régimes complémentaire et ASV."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelle est la pension de retraite moyenne d'un médecin libéral ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La pension moyenne CARMF s'établit autour de 2 829 € par mois (chiffre récent). Elle se répartit entre le régime de base (≈ 22 %), le régime complémentaire (≈ 45 %) et l'ASV (≈ 33 %)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qu'est-ce que le régime ASV et qui y a droit ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'Avantage Social Vieillesse est un régime réservé aux médecins conventionnés, cofinancé aux deux tiers par l'Assurance Maladie pour le secteur 1. Il représente environ un tiers de la pension moyenne d'un médecin."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Y a-t-il une décote sur la retraite CARMF ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Une décote peut s'appliquer sur le régime de base si la durée d'assurance n'est pas atteinte. En revanche, les régimes complémentaire et ASV de la CARMF ne sont pas minorés, même en cas de départ à taux réduit sur la base."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment est calculée la retraite complémentaire d'un médecin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Elle fonctionne par points&nbsp;: on acquiert 1 point par tranche d'un certain montant de revenu (10 points maximum par an), et chaque point ouvre droit à une fraction de pension, selon la valeur du point revalorisée périodiquement. La pension complémentaire est la somme des points multipliée par cette valeur."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Secteur 1 ou secteur 2 : quel impact sur la retraite ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le secteur de conventionnement modifie surtout le volet ASV&nbsp;: en secteur 1, l'Assurance Maladie finance l'essentiel de la cotisation ASV ; en secteur 2, la cotisation est plus élevée et la prise en charge réduite."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le PER est-il intéressant pour un médecin libéral ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Souvent oui. La tranche marginale d'imposition des médecins est fréquemment élevée&nbsp;: les versements sur un Plan d'Épargne Retraite sont déductibles du revenu imposable, ce qui réduit le coût réel de l'épargne tout en complétant une pension obligatoire plafonnée."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment estimer précisément ma retraite de médecin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le simulateur retraitia estime votre pension à partir de votre âge, de vos revenus et de votre situation, puis génère un bilan personnalisé. C'est gratuit, sans inscription, et le résultat est immédiat."
+      }
+    }
+  ]
+}
+</script>
 
 <!-- ════════════════════════════════════════════════════════════════════════
      Google Analytics 4 — page_view automatique. Même ID que la landing.
@@ -571,17 +675,17 @@ footer { padding: 30px 24px 46px; }
      ════════════════════════════════════════════════════════════════════════ -->
 <script>
   const PAGE = {
-    profession:     "{{NOM}}",            // libellé affiché
-    professionLong: "{{PROFESSION_LONG}}",    // formulation longue
-    slug:           "{{SLUG}}",   // URL de la page
-    regime:         "{{REGIME}}",                  // caisse / régime
-    ageLegal:       "{{AGE_LEGAL}}",                // âge légal d'ouverture des droits
-    revenuMoyen:    "{{REVENU_MOYEN}}",           // revenu moyen d'activité (réf. crédibilité)
-    pensionMoyenne: "{{PENSION_MOYENNE}}",          // pension moyenne du régime
+    profession:     "Médecin Libéral",            // libellé affiché
+    professionLong: "médecin libéral",    // formulation longue
+    slug:           "retraite-medecin",   // URL de la page
+    regime:         "CARMF",                  // caisse / régime
+    ageLegal:       "64 ans",                // âge légal d'ouverture des droits
+    revenuMoyen:    "100 000 €/an",           // revenu moyen d'activité (réf. crédibilité)
+    pensionMoyenne: "2 830 €/mois",          // pension moyenne du régime
 
     // — Contrat de passage vers le simulateur (single source of truth = /simulateur) —
     simulateurUrl:  "/simulateur",
-    statutMoteur:   "{{STATUT}}"             // statut attendu par le moteur de calcul
+    statutMoteur:   "tns_cnavpl"             // statut attendu par le moteur de calcul
   };
 </script>
 
@@ -612,7 +716,7 @@ footer { padding: 30px 24px 46px; }
       <li aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
       <li><a href="/retraite">Retraite par métier</a></li>
       <li aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
-      <li aria-current="page">{{PROFESSION_LONG_CAP}}</li>
+      <li aria-current="page">Médecin libéral</li>
     </ol>
   </div>
 </nav>
@@ -624,9 +728,9 @@ footer { padding: 30px 24px 46px; }
 
       <!-- Colonne gauche : promesse métier + CTA -->
       <div class="hero-text">
-        <span class="hero-eyebrow">{{HERO_EYEBROW}}</span>
-        <h1>{{H1}} <span class="grad-text">en clair</span></h1>
-        <p class="hero-sub">{{HERO_SUB}}</p>
+        <span class="hero-eyebrow">✦ Retraite des professions de santé</span>
+        <h1>Retraite du Médecin Libéral <span class="grad-text">en clair</span></h1>
+        <p class="hero-sub">Affilié à la <b>CARMF</b>, votre retraite repose sur trois étages — base, complémentaire et ASV — et chute en moyenne de près de <b>65&nbsp;%</b> par rapport à vos revenus. Estimez votre pension et vos leviers <b>en 3 minutes</b>.</p>
 
         <div class="pills">
           <div class="pill">
@@ -643,7 +747,7 @@ footer { padding: 30px 24px 46px; }
           </div>
         </div>
 
-        <a class="btn-cta" data-ga="cta_hero_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Commencer ma simulation <span class="arrow">→</span></a>
+        <a class="btn-cta" data-ga="cta_hero_clicked" href="/simulateur?src=metier-medecin">Commencer ma simulation <span class="arrow">→</span></a>
         <div class="trust-line">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
           Sans inscription &nbsp;•&nbsp; Sans engagement &nbsp;•&nbsp; 100&nbsp;% sécurisé
@@ -671,7 +775,7 @@ footer { padding: 30px 24px 46px; }
 <div class="reglo">
   <div class="wrap">
     <div class="cred-strip">
-      <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> {{CRED_BADGE_1}}</span>
+      <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Paramètres CARMF / CNAVPL en vigueur</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg> Calculs retraite actualisés</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M12 2v3"/><path d="M12 19v3"/></svg> Fiscalité PER intégrée</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4L12 3z"/></svg> Analyse personnalisée par IA</span>
@@ -682,7 +786,7 @@ footer { padding: 30px 24px 46px; }
 <!-- ══ CONTENU SEO (éditorial — remonté en haut) ════════════════════════ -->
 <section class="block">
   <div class="wrap">
-    <article class="seo-prose">{{SEO_BODY}}</article>
+    <article class="seo-prose"><h2>Comment fonctionne la retraite du médecin libéral&nbsp;?</h2><p>Le médecin libéral cotise obligatoirement à la <b>CARMF</b> (Caisse Autonome de Retraite des Médecins de France). Sa pension se construit sur <b>trois régimes</b> qui se cumulent, auxquels s'ajoute une couverture invalidité-décès. C'est cette superposition qui rend le calcul peu lisible — et la préparation souvent trop tardive.</p><p>Comprendre la part de chaque régime est la première étape pour anticiper&nbsp;: chacun obéit à ses propres règles d'âge, de cotisation et de calcul.</p><h3>Trois régimes obligatoires</h3><ul><li><b>Le régime de base (CNAVPL)</b> — géré par la CARMF, par points. Il pèse environ <b>22&nbsp;%</b> de la pension moyenne.</li><li><b>Le régime complémentaire CARMF</b> — le plus important (<b>45&nbsp;%</b> de la pension). La valeur du point est revalorisée périodiquement et l'on acquiert un point par tranche de revenu, dans la limite de 10 points par an.</li><li><b>Le régime ASV (Avantage Social Vieillesse)</b> — réservé aux médecins conventionnés, il représente environ <b>33&nbsp;%</b> de la pension et est cofinancé aux deux tiers par l'Assurance Maladie pour le secteur&nbsp;1.</li></ul><h3>Des cotisations élevées</h3><p>Les cotisations vieillesse d'un médecin libéral représentent une part substantielle du revenu, réparties entre base et complémentaire (dans la limite d'un plafond), auxquels s'ajoute l'ASV (part forfaitaire et proportionnelle, plus lourde en secteur&nbsp;2). À titre d'exemple, pour un BNC de 60&nbsp;000&nbsp;€, l'addition des régimes dépasse fréquemment 15&nbsp;000&nbsp;€ par an.</p><div class="info-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><div><b>L'ASV : un atout, mais une dépendance</b><p>Pour un médecin de secteur 1, l'Assurance Maladie prend en charge les deux tiers de la cotisation ASV. Un déconventionnement, ou un exercice en secteur 2, modifie sensiblement ce volet — et donc près d'un tiers de votre future pension.</p></div></div><h3>Âge de départ et taux plein</h3><p>L'âge légal d'ouverture des droits est porté à <b>64 ans</b>, et le taux plein s'obtient à 67 ans (ou avec 172 trimestres). Particularité appréciable&nbsp;: la CARMF <b>n'applique pas de décote</b> sur les régimes complémentaire et ASV, même en cas de liquidation de la base à taux réduit. À l'inverse, reporter son départ au-delà du taux plein déclenche une <b>surcote de 1,25&nbsp;% par trimestre</b>, soit 5&nbsp;% par an.</p><h3>Le vrai enjeu&nbsp;: la chute de revenus</h3><p>Avec un revenu d'activité souvent proche de <b>100&nbsp;000&nbsp;€ par an</b> et une pension moyenne CARMF de <b>2&nbsp;829&nbsp;€ par mois</b>, l'écart représente une baisse de niveau de vie d'environ <b>65&nbsp;%</b>. Plus le revenu est élevé, plus l'écart se creuse en valeur absolue&nbsp;: les régimes obligatoires sont plafonnés, et seule une épargne anticipée permet de compenser.</p><h3>Réversion et prévoyance</h3><p>En cas de décès, le conjoint survivant peut percevoir une pension de réversion, dont les règles varient selon les régimes concernés, sous conditions. Le régime invalidité-décès de la CARMF complète ce dispositif pendant la vie active&nbsp;: il ne remplace pas un contrat de prévoyance individuel, souvent nécessaire pour maintenir le niveau de vie de la famille.</p><h3>Les leviers d'optimisation</h3><ul><li><b>Le Plan d'Épargne Retraite (PER)</b> — les versements sont déductibles du revenu imposable&nbsp;; avec une tranche marginale fréquemment à 41&nbsp;%, l'économie d'impôt réduit nettement le coût réel de l'effort.</li><li><b>Le rachat de trimestres</b> — utile pour compléter une carrière démarrée tardivement (internat, années de remplacement).</li><li><b>Le report du départ</b> — pour activer la surcote sur l'ensemble des régimes.</li><li><b>Le cumul emploi-retraite</b> — fréquent chez les médecins&nbsp;; ses règles évoluent régulièrement.</li><li><b>L'anticipation de la cession</b> — patientèle, parts de SEL ou de SCM&nbsp;: un moment clé, à la fois fiscal et patrimonial.</li></ul><p>Le bon levier dépend de votre âge, de votre secteur de conventionnement et de votre horizon de départ. La simulation donne une première lecture chiffrée en quelques minutes, qu'un conseiller peut ensuite affiner.</p><p class="seo-sources">Sources&nbsp;: CARMF, CNAVPL (paramètres en vigueur). Les montants moyens sont des ordres de grandeur et ne constituent pas une simulation individuelle. Simulation indicative, à titre d'estimation non contractuelle.</p></article>
   </div>
 </section>
 
@@ -690,11 +794,36 @@ footer { padding: 30px 24px 46px; }
 <section class="block" style="padding-top:0;">
   <div class="wrap">
     <div class="section-head">
-      <h2>{{FACTS_HEADING}} <span class="grad-text">en 4 chiffres</span></h2>
+      <h2>La retraite du médecin libéral <span class="grad-text">en 4 chiffres</span></h2>
       <p class="section-sub">L'essentiel à connaître avant de lancer votre simulation.</p>
     </div>
-    <div class="fact-grid">{{FACT_CARDS}}</div>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Estimer ma pension <span class="arrow">→</span></a></div>
+    <div class="fact-grid">
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="fact-label">Régime concerné</div>
+        <div class="fact-value">CARMF</div>
+        <div class="fact-note">Base CNAVPL + complémentaire CARMF + ASV (conventionnés).</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="fact-label">Âge légal</div>
+        <div class="fact-value">64 ans</div>
+        <div class="fact-note">Taux plein 67 ans — pas de décote sur la complémentaire CARMF.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="fact-label">Pension moyenne</div>
+        <div class="fact-value">≈ 2 830 €</div>
+        <div class="fact-note">Par mois — moyenne CARMF (base 22 %, complémentaire 45 %, ASV 33 %).</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <div class="fact-label">Point d'attention</div>
+        <div class="fact-value">−65 %</div>
+        <div class="fact-note">Chute de revenus moyenne entre l'activité et la pension.</div>
+      </div>
+    </div>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-medecin">Estimer ma pension <span class="arrow">→</span></a></div>
   </div>
 </section>
 
@@ -702,13 +831,24 @@ footer { padding: 30px 24px 46px; }
      build-metiers.mjs à partir de la correspondance profession.regime →
      caisses.json[].key. Vide (aucune section rendue) si la caisse
      correspondante n'existe pas encore dans caisses.json. ══════════════ -->
-{{CAISSE_LINK_BLOCK}}
+<section class="block" style="padding-top:0;">
+  <div class="wrap">
+    <div class="caisse-link-box">
+      <div class="caisse-link-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></div>
+      <div class="caisse-link-txt">
+        <b>Cette profession dépend de la CARMF.</b>
+        <span>Comprendre le fonctionnement de cette caisse : cotisations, points, régimes.</span>
+      </div>
+      <a class="caisse-link-btn" href="/retraite-carmf">Découvrir la CARMF <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
 
 <!-- ══ EXEMPLE CONCRET ═════════════════════════════════════════════════ -->
 <section class="block" style="padding-top:0;">
   <div class="wrap">
     <div class="section-head">
-      <h2>Un cas concret&nbsp;: <span class="grad-text">{{EX_TITRE}}</span></h2>
+      <h2>Un cas concret&nbsp;: <span class="grad-text">médecin libéral, 52 ans</span></h2>
     </div>
 
     <div class="example-wrap"><span class="example-badge">📊 Exemple illustratif — pas vos chiffres réels</span></div>
@@ -717,7 +857,7 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2.5"/><path d="M2 10h20"/><circle cx="17.5" cy="14.5" r="1.3" fill="currentColor"/></svg></div>
         <div class="stat-label">Revenu d'activité</div>
-        <div class="stat-value">{{EX_REVENU}}</div>
+        <div class="stat-value">8 300 €</div>
         <div class="stat-unit">par mois</div>
       </div>
 
@@ -726,7 +866,7 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <div class="stat-label">Pension estimée</div>
-        <div class="stat-value">{{EX_PENSION}}</div>
+        <div class="stat-value">≈ 4 700 €</div>
         <div class="stat-unit">par mois</div>
       </div>
 
@@ -735,14 +875,14 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card accent">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17 13.5 8.5 8.5 13.5 2 7"/><path d="M16 17h6v-6"/></svg></div>
         <div class="stat-label">Écart de niveau de vie</div>
-        <div class="stat-value neg">{{EX_ECART}}</div>
+        <div class="stat-value neg">−3 600 €</div>
         <div class="stat-unit">par mois</div>
-        <div class="stat-yearbadge">{{EX_ECART_PCT}}</div>
+        <div class="stat-yearbadge">soit ≈ −43 % de revenus</div>
       </div>
     </div>
 
-    <p class="problem-foot">{{EX_FOOT}}</p>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Voir mon propre écart <span class="arrow">→</span></a></div>
+    <p class="problem-foot">En agissant dès 52 ans plutôt qu'à 60, l'effort d'épargne pour combler cet écart est environ <b>2&nbsp;fois plus faible</b> — grâce aux intérêts composés et à la déduction PER. Exemple pédagogique basé sur une carrière type, à titre indicatif&nbsp;: aucune projection individuelle garantie.</p>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-medecin">Voir mon propre écart <span class="arrow">→</span></a></div>
   </div>
 </section>
 
@@ -753,7 +893,38 @@ footer { padding: 30px 24px 46px; }
       <h2>Les erreurs <span class="grad-text">les plus fréquentes</span></h2>
       <p class="section-sub">Elles coûtent cher — et sont presque toujours évitables avec un peu d'avance.</p>
     </div>
-    <div class="error-grid">{{ERREURS_CARDS}}</div>
+    <div class="error-grid">
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Attendre la fin de carrière pour vérifier ses points</h3>
+        <p>Base, complémentaire et ASV se lisent séparément. Les erreurs de report sont fréquentes et se corrigent d'autant mieux qu'on les détecte tôt.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <h3>Sous-estimer le poids de l'ASV</h3>
+        <p>Un tiers de la pension dépend du régime ASV, donc du conventionnement. Secteur 1, secteur 2 ou déconventionnement n'ouvrent pas les mêmes droits.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17 13.5 8.5 8.5 13.5 2 7"/><path d="M16 17h6v-6"/></svg></div>
+        <h3>Ignorer la chute d'environ 65 %</h3>
+        <p>Beaucoup de médecins découvrent l'écart une fois à la retraite. Le mesurer tôt change radicalement les décisions d'épargne.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Négliger l'avantage fiscal du PER</h3>
+        <p>Avec une tranche marginale souvent à 41 %, ne pas utiliser la déduction PER revient à renoncer à une économie d'impôt récurrente.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6" rx="1"/><rect x="12.5" y="7" width="3" height="10" rx="1"/><rect x="18" y="13" width="3" height="4" rx="1"/></svg></div>
+        <h3>Oublier la surcote</h3>
+        <p>Reporter le départ au-delà du taux plein majore l'ensemble de la pension de 1,25 % par trimestre — un levier sous-exploité.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Ne pas anticiper la cession de patientèle</h3>
+        <p>Cession, transformation en SEL ou départ&nbsp;: les enjeux fiscaux et retraite se préparent idéalement 2 à 3 ans à l'avance.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -762,9 +933,46 @@ footer { padding: 30px 24px 46px; }
   <div class="wrap">
     <div class="section-head">
       <h2>Questions fréquentes</h2>
-      <p class="section-sub">{{FAQ_SUB}}</p>
+      <p class="section-sub">Tout ce que les médecins libéraux demandent sur leur retraite.</p>
     </div>
-    <div class="faq">{{FAQ_HTML}}</div>
+    <div class="faq">
+      <details>
+        <summary>À quelle caisse de retraite est affilié un médecin libéral ?</summary>
+        <div class="faq-a">Tout médecin exerçant en libéral cotise à la CARMF (Caisse Autonome de Retraite des Médecins de France). Elle gère le régime de base (pour le compte de la CNAVPL), le régime complémentaire, le régime ASV des médecins conventionnés et un régime invalidité-décès.</div>
+      </details>
+      <details>
+        <summary>Quel est l'âge de départ à la retraite d'un médecin ?</summary>
+        <div class="faq-a">L'âge légal d'ouverture des droits est de 64 ans, et le taux plein s'obtient à 67 ans ou avec 172 trimestres. La CARMF n'applique pas de décote sur les régimes complémentaire et ASV.</div>
+      </details>
+      <details>
+        <summary>Quelle est la pension de retraite moyenne d'un médecin libéral ?</summary>
+        <div class="faq-a">La pension moyenne CARMF s'établit autour de 2 829 € par mois (chiffre récent). Elle se répartit entre le régime de base (≈ 22 %), le régime complémentaire (≈ 45 %) et l'ASV (≈ 33 %).</div>
+      </details>
+      <details>
+        <summary>Qu'est-ce que le régime ASV et qui y a droit ?</summary>
+        <div class="faq-a">L'Avantage Social Vieillesse est un régime réservé aux médecins conventionnés, cofinancé aux deux tiers par l'Assurance Maladie pour le secteur 1. Il représente environ un tiers de la pension moyenne d'un médecin.</div>
+      </details>
+      <details>
+        <summary>Y a-t-il une décote sur la retraite CARMF ?</summary>
+        <div class="faq-a">Une décote peut s'appliquer sur le régime de base si la durée d'assurance n'est pas atteinte. En revanche, les régimes complémentaire et ASV de la CARMF ne sont pas minorés, même en cas de départ à taux réduit sur la base.</div>
+      </details>
+      <details>
+        <summary>Comment est calculée la retraite complémentaire d'un médecin ?</summary>
+        <div class="faq-a">Elle fonctionne par points&nbsp;: on acquiert 1 point par tranche d'un certain montant de revenu (10 points maximum par an), et chaque point ouvre droit à une fraction de pension, selon la valeur du point revalorisée périodiquement. La pension complémentaire est la somme des points multipliée par cette valeur.</div>
+      </details>
+      <details>
+        <summary>Secteur 1 ou secteur 2 : quel impact sur la retraite ?</summary>
+        <div class="faq-a">Le secteur de conventionnement modifie surtout le volet ASV&nbsp;: en secteur 1, l'Assurance Maladie finance l'essentiel de la cotisation ASV ; en secteur 2, la cotisation est plus élevée et la prise en charge réduite.</div>
+      </details>
+      <details>
+        <summary>Le PER est-il intéressant pour un médecin libéral ?</summary>
+        <div class="faq-a">Souvent oui. La tranche marginale d'imposition des médecins est fréquemment élevée&nbsp;: les versements sur un Plan d'Épargne Retraite sont déductibles du revenu imposable, ce qui réduit le coût réel de l'épargne tout en complétant une pension obligatoire plafonnée.</div>
+      </details>
+      <details>
+        <summary>Comment estimer précisément ma retraite de médecin ?</summary>
+        <div class="faq-a">Le simulateur retraitia estime votre pension à partir de votre âge, de vos revenus et de votre situation, puis génère un bilan personnalisé. C'est gratuit, sans inscription, et le résultat est immédiat. <a href="#simulateur">Lancer ma simulation →</a></div>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -802,22 +1010,46 @@ footer { padding: 30px 24px 46px; }
         <p>Si besoin, échangez avec un conseiller pour approfondir votre stratégie.</p>
       </div>
     </div>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_retraitia_block_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Commencer ma simulation <span class="arrow">→</span></a></div>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_retraitia_block_clicked" href="/simulateur?src=metier-medecin">Commencer ma simulation <span class="arrow">→</span></a></div>
   </div>
 </section>
 
-{{SIMILAR_PROFESSIONS_BLOCK}}
+<section class="block" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Professions <span class="grad-text">similaires</span></h2>
+      <p class="section-sub">Découvrez également les guides retraite de professions proches de la vôtre.</p>
+    </div>
+    <div class="why-grid similar-grid">
+      <div class="why-card similar-card">
+        <h3>Pharmacien</h3>
+        <p>Caisse d'Assurance Vieillesse des Pharmaciens</p>
+        <a class="similar-link" href="/retraite-pharmacien">Voir le guide <span class="arrow">→</span></a>
+      </div>
+      <div class="why-card similar-card">
+        <h3>Kinésithérapeute</h3>
+        <p>Caisse Autonome de Retraite et de Prévoyance des Infirmiers, Masseurs-Kinésithérapeutes, Pédicures-Podologues, Orthophonistes et Orthoptistes</p>
+        <a class="similar-link" href="/retraite-kinesitherapeute">Voir le guide <span class="arrow">→</span></a>
+      </div>
+      <div class="why-card similar-card">
+        <h3>Chirurgien-Dentiste</h3>
+        <p>Caisse Autonome de Retraite des Chirurgiens-Dentistes et des Sages-Femmes</p>
+        <a class="similar-link" href="/retraite-chirurgien-dentiste">Voir le guide <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══ CTA FINAL (repris à l'identique de la landing) ══════════════════ -->
 <div class="cta-final">
   <div class="wrap">
     <div class="cta-final-inner">
       <div class="cta-final-txt">
-        <h2>{{CTA_TITLE}}</h2>
+        <h2>Votre retraite de médecin libéral mérite les bonnes décisions.</h2>
         <p>Obtenez votre estimation et vos leviers personnalisés en 3 minutes — gratuitement et sans inscription.</p>
       </div>
       <div class="cta-final-side">
-        <a class="btn-cta" data-ga="cta_final_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Découvrir mon bilan retraite <span class="arrow">→</span></a>
+        <a class="btn-cta" data-ga="cta_final_clicked" href="/simulateur?src=metier-medecin">Découvrir mon bilan retraite <span class="arrow">→</span></a>
         <div class="trust-line">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
           Gratuit &nbsp;•&nbsp; Sans engagement &nbsp;•&nbsp; Résultat immédiat

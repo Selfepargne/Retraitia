@@ -476,6 +476,10 @@ footer { padding: 30px 24px 46px; }
     document.head.appendChild(s);
   })();
 </script>
+<!-- Contexte d'acquisition — capture utm/gclid/src, dérive profession & canal,
+     et enveloppe gtag pour que chaque événement porte les dimensions.
+     Doit être chargé APRÈS le bootstrap gtag. -->
+<script src="/assets/tracking.js"></script>
 </head>
 <body>
 

@@ -1656,6 +1656,10 @@ header #brand-logo { height: 100px !important; }
     linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-secondary) 100%) border-box !important;
 }
 </style>
+<!-- Contexte d'acquisition — capture utm/gclid/src, dérive profession & canal,
+     et enveloppe gtag pour que chaque événement porte les dimensions.
+     Doit être chargé APRÈS le bootstrap gtag. -->
+<script src="/assets/tracking.js"></script>
 </head>
 <body>
 
@@ -3775,6 +3779,19 @@ async function calculate() {
 
   await renderResults();
   goTo(3);
+
+  /* Contexte de simulation posé AVANT le premier événement qui en dépend :
+     tranche d'âge, tranche de manque et mode enrichiront ensuite tous les
+     événements suivants — simulation_complete, lead_submit, rdv_click —
+     sans qu'aucun d'eux ait à les répéter. */
+  if (window.RetraitiaTracking) {
+    window.RetraitiaTracking.setSimulation({
+      mode:   currentMode,
+      age:    state.currentAge,
+      manque: state.manqueNet
+    });
+  }
+
   if (typeof gtag === 'function') {
     gtag('event', 'simulation_complete', {
       brand:           BRAND.name,

@@ -12,22 +12,22 @@
      ════════════════════════════════════════════════════════════════════════ -->
 
 <!-- ── SEO : title + meta (générés depuis professions.json au build) ─────── -->
-<title>{{TITLE}}</title>
-<meta name="description" content="{{META_DESC}}">
-<link rel="canonical" href="{{CANONICAL}}">
+<title>Retraite du Développeur Freelance — SSI, micro, montant & simulation | retraitia</title>
+<meta name="description" content="Développeur freelance : comprenez votre retraite SSI (base + RCI), la validation des trimestres en micro, estimez votre pension en 3 minutes et trouvez vos leviers. Gratuit, sans inscription.">
+<link rel="canonical" href="https://retraitia.com/retraite-developpeur-freelance">
 
 <!-- ── Open Graph / Twitter ──────────────────────────────────────────────── -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="retraitia">
-<meta property="og:url" content="{{CANONICAL}}">
-<meta property="og:title" content="{{OG_TITLE}}">
-<meta property="og:description" content="{{OG_DESC}}">
-<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:url" content="https://retraitia.com/retraite-developpeur-freelance">
+<meta property="og:title" content="Retraite du Développeur Freelance — SSI, micro & simulation">
+<meta property="og:description" content="Estimez votre pension de développeur freelance en 3 minutes et sécurisez vos trimestres. Gratuit, sans inscription, bilan IA personnalisé.">
+<meta property="og:image" content="https://retraitia.com/og/retraite-developpeur-freelance.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{OG_TITLE}}">
-<meta name="twitter:description" content="{{OG_DESC}}">
-<meta name="twitter:image" content="{{OG_IMAGE}}">
+<meta name="twitter:title" content="Retraite du Développeur Freelance — SSI, micro & simulation">
+<meta name="twitter:description" content="Estimez votre pension de développeur freelance en 3 minutes et sécurisez vos trimestres. Gratuit, sans inscription, bilan IA personnalisé.">
+<meta name="twitter:image" content="https://retraitia.com/og/retraite-developpeur-freelance.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -541,8 +541,112 @@ footer { padding: 30px 24px 46px; }
      SCHEMA.ORG — généré au build depuis professions.json (FAQ + fil d'ariane).
      Le texte des Q/R DOIT être identique à la FAQ visible (exigence Google).
      ════════════════════════════════════════════════════════════════════════ -->
-{{BREADCRUMB_SCHEMA}}
-{{FAQ_SCHEMA}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://retraitia.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Retraite par métier",
+      "item": "https://retraitia.com/retraite"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Développeur freelance",
+      "item": "https://retraitia.com/retraite-developpeur-freelance"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "À quelle caisse de retraite cotise un développeur freelance ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En prestation de services BNC, le développeur freelance relève de la CNAV / SSI (Sécurité sociale des indépendants), et non de la CIPAV. Sa retraite comprend une base (formule du régime général) et la complémentaire RCI par points."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel est l'âge de départ à la retraite d'un développeur freelance ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'âge légal est de 64 ans et le taux plein s'obtient à 67 ans (ou 172 trimestres). Les dispositifs de départ anticipé (carrière longue) et de retraite progressive restent accessibles sous conditions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel chiffre d'affaires pour valider mes trimestres en micro ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aujourd'hui, mieux vaut atteindre un certain niveau de chiffre d'affaires (prestations BNC hors CIPAV, seuil revalorisé chaque année) pour valider les 4 trimestres de l'année. La validation est proportionnelle au CA, selon un montant revalorisé chaque année par trimestre."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je valider plus de 4 trimestres si je gagne beaucoup ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Le maximum est de 4 trimestres par an, quel que soit le chiffre d'affaires — et même si vous cumulez micro-entreprise et emploi salarié. Un CA élevé n'accélère pas la durée d'assurance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment est calculée ma retraite de base ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comme au régime général&nbsp;: à partir du revenu annuel moyen des 25 meilleures années (retenu dans la limite du PASS), d'un taux de 50 % au maximum et de la durée d'assurance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qu'est-ce que le RCI ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le Régime Complémentaire des Indépendants est un régime par points obligatoire&nbsp;: les cotisations sont converties en points (valeur d'achat fixée chaque année), convertis en pension selon la valeur de service revalorisée périodiquement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "J'ai été salarié puis freelance, comment ça se passe ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vos droits se répartissent entre le régime général salarié (avec l'Agirc-Arrco) et la SSI. Tous les trimestres comptent de la même façon&nbsp;; il est important de reconstituer cette carrière mixte via votre relevé de carrière tous régimes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Le PER est-il intéressant pour un développeur freelance ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui, et d'autant plus qu'il est ouvert tôt. Les versements sont déductibles du revenu imposable, et les intérêts composés font la différence sur une longue durée&nbsp;: c'est le levier le plus puissant pour une profession jeune."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment estimer précisément ma retraite de développeur freelance ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le simulateur retraitia estime votre pension à partir de votre âge, de vos revenus et de votre situation, puis génère un bilan personnalisé. C'est gratuit, sans inscription, et le résultat est immédiat."
+      }
+    }
+  ]
+}
+</script>
 
 <!-- ════════════════════════════════════════════════════════════════════════
      Google Analytics 4 — page_view automatique. Même ID que la landing.
@@ -571,17 +675,17 @@ footer { padding: 30px 24px 46px; }
      ════════════════════════════════════════════════════════════════════════ -->
 <script>
   const PAGE = {
-    profession:     "{{NOM}}",            // libellé affiché
-    professionLong: "{{PROFESSION_LONG}}",    // formulation longue
-    slug:           "{{SLUG}}",   // URL de la page
-    regime:         "{{REGIME}}",                  // caisse / régime
-    ageLegal:       "{{AGE_LEGAL}}",                // âge légal d'ouverture des droits
-    revenuMoyen:    "{{REVENU_MOYEN}}",           // revenu moyen d'activité (réf. crédibilité)
-    pensionMoyenne: "{{PENSION_MOYENNE}}",          // pension moyenne du régime
+    profession:     "Développeur Freelance",            // libellé affiché
+    professionLong: "développeur freelance",    // formulation longue
+    slug:           "retraite-developpeur-freelance",   // URL de la page
+    regime:         "SSI",                  // caisse / régime
+    ageLegal:       "64 ans",                // âge légal d'ouverture des droits
+    revenuMoyen:    "60 000 €/an",           // revenu moyen d'activité (réf. crédibilité)
+    pensionMoyenne: "1 400 €/mois",          // pension moyenne du régime
 
     // — Contrat de passage vers le simulateur (single source of truth = /simulateur) —
     simulateurUrl:  "/simulateur",
-    statutMoteur:   "{{STATUT}}"             // statut attendu par le moteur de calcul
+    statutMoteur:   "tns_ssi"             // statut attendu par le moteur de calcul
   };
 </script>
 
@@ -612,7 +716,7 @@ footer { padding: 30px 24px 46px; }
       <li aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
       <li><a href="/retraite">Retraite par métier</a></li>
       <li aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></li>
-      <li aria-current="page">{{PROFESSION_LONG_CAP}}</li>
+      <li aria-current="page">Développeur freelance</li>
     </ol>
   </div>
 </nav>
@@ -624,9 +728,9 @@ footer { padding: 30px 24px 46px; }
 
       <!-- Colonne gauche : promesse métier + CTA -->
       <div class="hero-text">
-        <span class="hero-eyebrow">{{HERO_EYEBROW}}</span>
-        <h1>{{H1}} <span class="grad-text">en clair</span></h1>
-        <p class="hero-sub">{{HERO_SUB}}</p>
+        <span class="hero-eyebrow">✦ Retraite des indépendants & du digital</span>
+        <h1>Retraite du Développeur Freelance <span class="grad-text">en clair</span></h1>
+        <p class="hero-sub">En micro, EI ou EURL, vous relevez de la <b>SSI</b> (et non de la CIPAV). En micro, vos <b>trimestres dépendent de votre CA</b> — et la base est vite plafonnée. Mais jeune, le temps joue pour vous. Estimez votre retraite <b>en 3 minutes</b>.</p>
 
         <div class="pills">
           <div class="pill">
@@ -643,7 +747,7 @@ footer { padding: 30px 24px 46px; }
           </div>
         </div>
 
-        <a class="btn-cta" data-ga="cta_hero_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Commencer ma simulation <span class="arrow">→</span></a>
+        <a class="btn-cta" data-ga="cta_hero_clicked" href="/simulateur?src=metier-developpeur-freelance">Commencer ma simulation <span class="arrow">→</span></a>
         <div class="trust-line">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
           Sans inscription &nbsp;•&nbsp; Sans engagement &nbsp;•&nbsp; 100&nbsp;% sécurisé
@@ -671,7 +775,7 @@ footer { padding: 30px 24px 46px; }
 <div class="reglo">
   <div class="wrap">
     <div class="cred-strip">
-      <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> {{CRED_BADGE_1}}</span>
+      <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Paramètres SSI / RCI en vigueur</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg> Calculs retraite actualisés</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><path d="M12 2v3"/><path d="M12 19v3"/></svg> Fiscalité PER intégrée</span>
       <span class="cred-badge"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4L12 3z"/></svg> Analyse personnalisée par IA</span>
@@ -682,7 +786,7 @@ footer { padding: 30px 24px 46px; }
 <!-- ══ CONTENU SEO (éditorial — remonté en haut) ════════════════════════ -->
 <section class="block">
   <div class="wrap">
-    <article class="seo-prose">{{SEO_BODY}}</article>
+    <article class="seo-prose"><h2>Comment fonctionne la retraite du développeur freelance&nbsp;?</h2><p>Le développeur freelance (micro-entreprise, entreprise individuelle ou EURL) relève de la <b>SSI</b> (Sécurité sociale des indépendants), gérée par l'Assurance retraite. Point souvent ignoré&nbsp;: en prestation de services <b>BNC</b>, un développeur dépend de la <b>CNAV</b>, et non de la CIPAV. Sa pension repose sur deux régimes&nbsp;: la base (formule du régime général) et la complémentaire RCI par points. Et comme la population est jeune, l'anticipation est ici un atout rare.</p><h3>Le statut micro et la validation des trimestres</h3><p>En micro-entreprise, vos trimestres de retraite dépendent directement de votre chiffre d'affaires. Aujourd'hui, mieux vaut atteindre un certain niveau de chiffre d'affaires (prestations BNC hors CIPAV, seuil revalorisé chaque année) pour valider les <b>4 trimestres</b> de l'année. Trois règles à connaître&nbsp;:</p><ul><li>On ne peut valider <b>que 4 trimestres par an</b>, même avec un CA très élevé.</li><li>Un trimestre non validé (année creuse, intercontrat) est <b>perdu définitivement</b>.</li><li>Aujourd'hui, le taux global du micro BNC hors CIPAV a été relevé, avec une part accrue pour la retraite.</li></ul><div class="info-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><div><b>Le piège des trimestres en micro</b><p>Une bonne année de freelance ne « rattrape » pas une mauvaise : on plafonne à 4 trimestres par an, et un trimestre manqué ne se récupère pas. Pour un développeur aux revenus irréguliers, surveiller son CA et son relevé de carrière est essentiel — quitte à racheter des trimestres plus tard.</p></div></div><h3>Les deux régimes de la SSI</h3><p><b>La base</b> suit la formule du régime général&nbsp;: pension calculée sur le revenu annuel moyen des 25 meilleures années, dans la limite du PASS, avec un taux plein de 50&nbsp;%. <b>La RCI</b> fonctionne par points (valeurs d'achat et de service fixées chaque année). Pour un développeur bien rémunéré, la base est vite plafonnée&nbsp;: le complément personnel devient décisif.</p><h3>Carrière mixte et jeunesse&nbsp;: deux spécificités</h3><p>Beaucoup de développeurs alternent <b>salariat et freelance</b>&nbsp;: les droits se répartissent alors entre le régime général salarié (Agirc-Arrco) et la SSI. Reconstituer cette carrière mixte évite les oublis. Surtout, la jeunesse de la profession est un avantage&nbsp;: commencer tôt un PER, c'est laisser les <b>intérêts composés</b> faire l'essentiel du travail.</p><h3>Les leviers d'optimisation</h3><ul><li><b>Le Plan d'Épargne Retraite (PER)</b> — déductible et d'autant plus puissant qu'il est alimenté jeune.</li><li><b>Le passage au réel ou en société</b> — à étudier dès que les revenus deviennent réguliers et élevés.</li><li><b>Le rachat de trimestres</b> — pour combler les années à faible CA ou les débuts de carrière.</li><li><b>Le suivi du relevé de carrière</b> — souvent nécessaire en cas de parcours mixte salarié/freelance.</li></ul><p>La simulation chiffre l'écart en quelques minutes&nbsp;; un conseiller peut ensuite arbitrer le statut et calibrer le PER.</p><p class="seo-sources">Sources&nbsp;: SSI / Assurance retraite, RCI (paramètres et seuils en vigueur). Les montants moyens sont des ordres de grandeur et ne constituent pas une simulation individuelle. Simulation indicative, à titre d'estimation non contractuelle.</p></article>
   </div>
 </section>
 
@@ -690,11 +794,36 @@ footer { padding: 30px 24px 46px; }
 <section class="block" style="padding-top:0;">
   <div class="wrap">
     <div class="section-head">
-      <h2>{{FACTS_HEADING}} <span class="grad-text">en 4 chiffres</span></h2>
+      <h2>La retraite du développeur freelance <span class="grad-text">en 4 chiffres</span></h2>
       <p class="section-sub">L'essentiel à connaître avant de lancer votre simulation.</p>
     </div>
-    <div class="fact-grid">{{FACT_CARDS}}</div>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Estimer ma pension <span class="arrow">→</span></a></div>
+    <div class="fact-grid">
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="fact-label">Régime concerné</div>
+        <div class="fact-value">SSI</div>
+        <div class="fact-note">Base (régime général) + complémentaire RCI — micro affilié à la CNAV.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="fact-label">Âge légal</div>
+        <div class="fact-value">64 ans</div>
+        <div class="fact-note">Taux plein 67 ans / 172 trimestres.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="fact-label">Pension moyenne</div>
+        <div class="fact-value">≈ 1 400 €</div>
+        <div class="fact-note">Par mois — très variable selon le statut et la régularité des revenus.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <div class="fact-label">Point d'attention</div>
+        <div class="fact-value">Trimestres en micro</div>
+        <div class="fact-note">Un CA faible sur l'année fait perdre des trimestres (4 max/an).</div>
+      </div>
+    </div>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-developpeur-freelance">Estimer ma pension <span class="arrow">→</span></a></div>
   </div>
 </section>
 
@@ -702,13 +831,24 @@ footer { padding: 30px 24px 46px; }
      build-metiers.mjs à partir de la correspondance profession.regime →
      caisses.json[].key. Vide (aucune section rendue) si la caisse
      correspondante n'existe pas encore dans caisses.json. ══════════════ -->
-{{CAISSE_LINK_BLOCK}}
+<section class="block" style="padding-top:0;">
+  <div class="wrap">
+    <div class="caisse-link-box">
+      <div class="caisse-link-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></div>
+      <div class="caisse-link-txt">
+        <b>Cette profession dépend de la Sécurité Sociale des Indépendants.</b>
+        <span>Comprendre le fonctionnement de cette caisse : cotisations, points, régimes.</span>
+      </div>
+      <a class="caisse-link-btn" href="/retraite-ssi">Découvrir la SSI <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
 
 <!-- ══ EXEMPLE CONCRET ═════════════════════════════════════════════════ -->
 <section class="block" style="padding-top:0;">
   <div class="wrap">
     <div class="section-head">
-      <h2>Un cas concret&nbsp;: <span class="grad-text">{{EX_TITRE}}</span></h2>
+      <h2>Un cas concret&nbsp;: <span class="grad-text">développeur freelance, 38 ans</span></h2>
     </div>
 
     <div class="example-wrap"><span class="example-badge">📊 Exemple illustratif — pas vos chiffres réels</span></div>
@@ -717,7 +857,7 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2.5"/><path d="M2 10h20"/><circle cx="17.5" cy="14.5" r="1.3" fill="currentColor"/></svg></div>
         <div class="stat-label">Revenu d'activité</div>
-        <div class="stat-value">{{EX_REVENU}}</div>
+        <div class="stat-value">5 000 €</div>
         <div class="stat-unit">par mois</div>
       </div>
 
@@ -726,7 +866,7 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <div class="stat-label">Pension estimée</div>
-        <div class="stat-value">{{EX_PENSION}}</div>
+        <div class="stat-value">≈ 3 050 €</div>
         <div class="stat-unit">par mois</div>
       </div>
 
@@ -735,14 +875,14 @@ footer { padding: 30px 24px 46px; }
       <div class="stat-card accent">
         <div class="stat-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17 13.5 8.5 8.5 13.5 2 7"/><path d="M16 17h6v-6"/></svg></div>
         <div class="stat-label">Écart de niveau de vie</div>
-        <div class="stat-value neg">{{EX_ECART}}</div>
+        <div class="stat-value neg">−1 950 €</div>
         <div class="stat-unit">par mois</div>
-        <div class="stat-yearbadge">{{EX_ECART_PCT}}</div>
+        <div class="stat-yearbadge">soit ≈ −39 % de revenus</div>
       </div>
     </div>
 
-    <p class="problem-foot">{{EX_FOOT}}</p>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Voir mon propre écart <span class="arrow">→</span></a></div>
+    <p class="problem-foot">À 38 ans, le temps est votre meilleur allié. En alimentant un PER dès maintenant, l'effort mensuel pour combler l'écart est <b>bien plus léger</b> qu'en commençant à 50 ans — grâce aux intérêts composés. Exemple pédagogique basé sur une carrière type, à titre indicatif&nbsp;: aucune projection individuelle garantie.</p>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_mid_clicked" href="/simulateur?src=metier-developpeur-freelance">Voir mon propre écart <span class="arrow">→</span></a></div>
   </div>
 </section>
 
@@ -753,7 +893,38 @@ footer { padding: 30px 24px 46px; }
       <h2>Les erreurs <span class="grad-text">les plus fréquentes</span></h2>
       <p class="section-sub">Elles coûtent cher — et sont presque toujours évitables avec un peu d'avance.</p>
     </div>
-    <div class="error-grid">{{ERREURS_CARDS}}</div>
+    <div class="error-grid">
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Croire qu'un développeur dépend de la CIPAV</h3>
+        <p>En prestation de services BNC, le développeur freelance est affilié à la CNAV / SSI, pas à la CIPAV. Une confusion fréquente qui fausse toute projection.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <h3>Perdre des trimestres en micro</h3>
+        <p>En micro, les trimestres dépendent du CA. Une année creuse peut faire perdre des trimestres définitivement, et l'on ne peut jamais en valider plus de 4 par an.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17 13.5 8.5 8.5 13.5 2 7"/><path d="M16 17h6v-6"/></svg></div>
+        <h3>Attendre pour ouvrir un PER</h3>
+        <p>La profession est jeune&nbsp;: chaque année gagnée décuple l'effet des intérêts composés. Repousser le PER à 50 ans, c'est se priver de l'essentiel du levier.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Oublier de reconstituer une carrière mixte</h3>
+        <p>Alterner salariat et freelance disperse les droits entre l'Agirc-Arrco et la SSI. Sans reconstitution, des périodes peuvent manquer au moment de liquider.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6" rx="1"/><rect x="12.5" y="7" width="3" height="10" rx="1"/><rect x="18" y="13" width="3" height="4" rx="1"/></svg></div>
+        <h3>Rester en micro avec des revenus élevés</h3>
+        <p>Au-delà d'un certain niveau de revenu, le micro plafonne l'accumulation et la base&nbsp;: le passage au réel ou en société mérite d'être étudié.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Ne pas suivre son relevé de carrière</h3>
+        <p>C'est le seul moyen de détecter trimestres manquants et anomalies avant la liquidation&nbsp;: à vérifier régulièrement sur le site de l'Assurance retraite.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -762,9 +933,46 @@ footer { padding: 30px 24px 46px; }
   <div class="wrap">
     <div class="section-head">
       <h2>Questions fréquentes</h2>
-      <p class="section-sub">{{FAQ_SUB}}</p>
+      <p class="section-sub">Tout ce que les développeurs freelances demandent sur leur retraite.</p>
     </div>
-    <div class="faq">{{FAQ_HTML}}</div>
+    <div class="faq">
+      <details>
+        <summary>À quelle caisse de retraite cotise un développeur freelance ?</summary>
+        <div class="faq-a">En prestation de services BNC, le développeur freelance relève de la CNAV / SSI (Sécurité sociale des indépendants), et non de la CIPAV. Sa retraite comprend une base (formule du régime général) et la complémentaire RCI par points.</div>
+      </details>
+      <details>
+        <summary>Quel est l'âge de départ à la retraite d'un développeur freelance ?</summary>
+        <div class="faq-a">L'âge légal est de 64 ans et le taux plein s'obtient à 67 ans (ou 172 trimestres). Les dispositifs de départ anticipé (carrière longue) et de retraite progressive restent accessibles sous conditions.</div>
+      </details>
+      <details>
+        <summary>Quel chiffre d'affaires pour valider mes trimestres en micro ?</summary>
+        <div class="faq-a">Aujourd'hui, mieux vaut atteindre un certain niveau de chiffre d'affaires (prestations BNC hors CIPAV, seuil revalorisé chaque année) pour valider les 4 trimestres de l'année. La validation est proportionnelle au CA, selon un montant revalorisé chaque année par trimestre.</div>
+      </details>
+      <details>
+        <summary>Puis-je valider plus de 4 trimestres si je gagne beaucoup ?</summary>
+        <div class="faq-a">Non. Le maximum est de 4 trimestres par an, quel que soit le chiffre d'affaires — et même si vous cumulez micro-entreprise et emploi salarié. Un CA élevé n'accélère pas la durée d'assurance.</div>
+      </details>
+      <details>
+        <summary>Comment est calculée ma retraite de base ?</summary>
+        <div class="faq-a">Comme au régime général&nbsp;: à partir du revenu annuel moyen des 25 meilleures années (retenu dans la limite du PASS), d'un taux de 50 % au maximum et de la durée d'assurance.</div>
+      </details>
+      <details>
+        <summary>Qu'est-ce que le RCI ?</summary>
+        <div class="faq-a">Le Régime Complémentaire des Indépendants est un régime par points obligatoire&nbsp;: les cotisations sont converties en points (valeur d'achat fixée chaque année), convertis en pension selon la valeur de service revalorisée périodiquement.</div>
+      </details>
+      <details>
+        <summary>J'ai été salarié puis freelance, comment ça se passe ?</summary>
+        <div class="faq-a">Vos droits se répartissent entre le régime général salarié (avec l'Agirc-Arrco) et la SSI. Tous les trimestres comptent de la même façon&nbsp;; il est important de reconstituer cette carrière mixte via votre relevé de carrière tous régimes.</div>
+      </details>
+      <details>
+        <summary>Le PER est-il intéressant pour un développeur freelance ?</summary>
+        <div class="faq-a">Oui, et d'autant plus qu'il est ouvert tôt. Les versements sont déductibles du revenu imposable, et les intérêts composés font la différence sur une longue durée&nbsp;: c'est le levier le plus puissant pour une profession jeune.</div>
+      </details>
+      <details>
+        <summary>Comment estimer précisément ma retraite de développeur freelance ?</summary>
+        <div class="faq-a">Le simulateur retraitia estime votre pension à partir de votre âge, de vos revenus et de votre situation, puis génère un bilan personnalisé. C'est gratuit, sans inscription, et le résultat est immédiat. <a href="#simulateur">Lancer ma simulation →</a></div>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -802,22 +1010,46 @@ footer { padding: 30px 24px 46px; }
         <p>Si besoin, échangez avec un conseiller pour approfondir votre stratégie.</p>
       </div>
     </div>
-    <div class="mid-cta"><a class="btn-cta" data-ga="cta_retraitia_block_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Commencer ma simulation <span class="arrow">→</span></a></div>
+    <div class="mid-cta"><a class="btn-cta" data-ga="cta_retraitia_block_clicked" href="/simulateur?src=metier-developpeur-freelance">Commencer ma simulation <span class="arrow">→</span></a></div>
   </div>
 </section>
 
-{{SIMILAR_PROFESSIONS_BLOCK}}
+<section class="block" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Professions <span class="grad-text">similaires</span></h2>
+      <p class="section-sub">Découvrez également les guides retraite de professions proches de la vôtre.</p>
+    </div>
+    <div class="why-grid similar-grid">
+      <div class="why-card similar-card">
+        <h3>Consultant Libéral</h3>
+        <p>Sécurité Sociale des Indépendants</p>
+        <a class="similar-link" href="/retraite-consultant-liberal">Voir le guide <span class="arrow">→</span></a>
+      </div>
+      <div class="why-card similar-card">
+        <h3>Artisan du Bâtiment</h3>
+        <p>Sécurité Sociale des Indépendants</p>
+        <a class="similar-link" href="/retraite-artisan-batiment">Voir le guide <span class="arrow">→</span></a>
+      </div>
+      <div class="why-card similar-card">
+        <h3>Électricien Indépendant</h3>
+        <p>Sécurité Sociale des Indépendants</p>
+        <a class="similar-link" href="/retraite-electricien">Voir le guide <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ══ CTA FINAL (repris à l'identique de la landing) ══════════════════ -->
 <div class="cta-final">
   <div class="wrap">
     <div class="cta-final-inner">
       <div class="cta-final-txt">
-        <h2>{{CTA_TITLE}}</h2>
+        <h2>Votre retraite de développeur freelance mérite les bonnes décisions.</h2>
         <p>Obtenez votre estimation et vos leviers personnalisés en 3 minutes — gratuitement et sans inscription.</p>
       </div>
       <div class="cta-final-side">
-        <a class="btn-cta" data-ga="cta_final_clicked" href="/simulateur?src=metier-{{PROFESSION_KEY}}">Découvrir mon bilan retraite <span class="arrow">→</span></a>
+        <a class="btn-cta" data-ga="cta_final_clicked" href="/simulateur?src=metier-developpeur-freelance">Découvrir mon bilan retraite <span class="arrow">→</span></a>
         <div class="trust-line">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
           Gratuit &nbsp;•&nbsp; Sans engagement &nbsp;•&nbsp; Résultat immédiat
