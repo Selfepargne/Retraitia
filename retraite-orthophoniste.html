@@ -651,19 +651,9 @@ footer { padding: 30px 24px 46px; }
 <!-- ════════════════════════════════════════════════════════════════════════
      Google Analytics 4 — page_view automatique. Même ID que la landing.
      ════════════════════════════════════════════════════════════════════════ -->
-<script>
-  const GA_MEASUREMENT_ID = 'G-X4RQ7ZNLB4';
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', GA_MEASUREMENT_ID);
-  (function () {
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-    document.head.appendChild(s);
-  })();
-</script>
+<!-- Consentement — état Consentement v2, bandeau, chargement de GA4.
+     Doit précéder toute mesure. tracking.js suit l'objet PAGE, plus bas. -->
+<script src="/assets/consent.js"></script>
 </head>
 <body>
 
@@ -689,10 +679,11 @@ footer { padding: 30px 24px 46px; }
   };
 </script>
 
-<!-- Contexte d'acquisition — capture utm/gclid/src, dérive profession & canal,
-     et enveloppe gtag pour que chaque événement porte les dimensions.
-     Doit être chargé APRÈS le bootstrap gtag. -->
+<!-- Contexte d'acquisition — placé APRÈS l'objet PAGE, dont il tire la
+     profession et le slug. Le remonter dans le <head> le priverait de sa
+     source la plus fiable. -->
 <script src="/assets/tracking.js"></script>
+
 
 <!-- ══ HEADER (identique à la landing) ═════════════════════════════════ -->
 <header>
@@ -1066,6 +1057,7 @@ footer { padding: 30px 24px 46px; }
     Tes données sont 100&nbsp;% sécurisées et confidentielles.
   </div>
   <div class="footer-copyright">© <span id="footer-year"></span> retraitia. Tous droits réservés.</div>
+<div class="footer-legal" style="margin-top:10px;font-size:12px"><a href="/mentions-legales" style="color:inherit;margin:0 8px">Mentions légales</a>·<a href="/confidentialite" style="color:inherit;margin:0 8px">Confidentialité</a>·<a href="#" style="color:inherit;margin:0 8px" onclick="window.RetraitiaConsent&&window.RetraitiaConsent.open();return false">Gérer les cookies</a></div>
 </footer>
 <script>(function(){var y=document.getElementById('footer-year');if(y){y.textContent=new Date().getFullYear();}})();</script>
 

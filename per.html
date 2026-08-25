@@ -776,24 +776,11 @@ footer { padding: 30px 24px 46px; }
 </style>
 
 <!-- GA4 — chargement conditionné au consentement cookies (bandeau RGPD) -->
-<script>
-  const GA_MEASUREMENT_ID = 'G-X4RQ7ZNLB4';
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  function loadGA4() {
-    if (window.__ga4Loaded) return;
-    window.__ga4Loaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-    document.head.appendChild(s);
-    gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID);
-  }
-</script>
-<!-- Contexte d'acquisition — capture utm/gclid/src, dérive profession & canal,
-     et enveloppe gtag pour que chaque événement porte les dimensions.
-     Doit être chargé APRÈS le bootstrap gtag. -->
+<!-- Consentement & mesure — un seul module pour tout le site.
+     consent.js pose l'état Consentement v2, affiche le bandeau et charge GA4.
+     tracking.js enveloppe gtag et ajoute les dimensions.
+     L'ORDRE COMPTE : le consentement avant la mesure. -->
+<script src="/assets/consent.js"></script>
 <script src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -1619,6 +1606,7 @@ footer { padding: 30px 24px 46px; }
     Vos données sont 100&nbsp;% sécurisées et confidentielles.
   </div>
   <div class="footer-copyright">© 2026 retraitia. Tous droits réservés.</div>
+<div class="footer-legal" style="margin-top:10px;font-size:12px"><a href="/mentions-legales" style="color:inherit;margin:0 8px">Mentions légales</a>·<a href="/confidentialite" style="color:inherit;margin:0 8px">Confidentialité</a>·<a href="#" style="color:inherit;margin:0 8px" onclick="window.RetraitiaConsent&&window.RetraitiaConsent.open();return false">Gérer les cookies</a></div>
 </footer>
 
 <!-- ════════════════════════════════════════════════════════════════════
@@ -2199,36 +2187,6 @@ footer { padding: 30px 24px 46px; }
   .cookie-btn-refuse { background: transparent; color: var(--text); border: 1px solid var(--border); }
   @media (max-width: 640px) { .cookie-banner { padding: 14px 16px; } .cookie-banner-actions { width: 100%; } .cookie-btn { flex: 1; } }
 </style>
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Consentement cookies">
-  <div class="cookie-banner-text">
-    Nous utilisons des cookies de mesure d'audience (Google Analytics) afin d'améliorer ce site. Aucune donnée personnelle n'est transmise à des fins publicitaires. Voir les
-    <a href="/simulateur" target="_blank" rel="noopener">mentions légales</a>.
-  </div>
-  <div class="cookie-banner-actions">
-    <button type="button" class="cookie-btn cookie-btn-refuse" onclick="setCookieConsent(false)">Refuser</button>
-    <button type="button" class="cookie-btn cookie-btn-accept" onclick="setCookieConsent(true)">Accepter</button>
-  </div>
-</div>
-<script>
-(function() {
-  const CONSENT_KEY = 'retraitia_cookie_consent';
-  function getConsent() { try { return localStorage.getItem(CONSENT_KEY); } catch(e) { return null; } }
-  window.setCookieConsent = function(accepted) {
-    try { localStorage.setItem(CONSENT_KEY, accepted ? 'accepted' : 'refused'); } catch(e) {}
-    var b = document.getElementById('cookieBanner');
-    if (b) b.classList.remove('open');
-    if (accepted && typeof loadGA4 === 'function') loadGA4();
-  };
-  document.addEventListener('DOMContentLoaded', function() {
-    var consent = getConsent();
-    if (consent === 'accepted' && typeof loadGA4 === 'function') { loadGA4(); }
-    else if (consent !== 'refused' && consent !== 'accepted') {
-      var b = document.getElementById('cookieBanner');
-      if (b) b.classList.add('open');
-    }
-  });
-})();
-</script>
 
 </body>
 </html>

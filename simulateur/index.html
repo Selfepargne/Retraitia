@@ -1421,21 +1421,6 @@
 
 
 </style>
-<!-- Google Analytics 4 — chargement conditionné au consentement cookies (voir bandeau RGPD) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  function loadGA4() {
-    if (window.__ga4Loaded) return;
-    window.__ga4Loaded = true;
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-X4RQ7ZNLB4';
-    document.head.appendChild(s);
-    gtag('js', new Date());
-    gtag('config', 'G-X4RQ7ZNLB4');
-  }
-</script>
 <style id="fintech-theme">
 /* ════ retraitia · habillage FINTECH (couleur marquée · fond clair) ════ */
 
@@ -1656,9 +1641,11 @@ header #brand-logo { height: 100px !important; }
     linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-secondary) 100%) border-box !important;
 }
 </style>
-<!-- Contexte d'acquisition — capture utm/gclid/src, dérive profession & canal,
-     et enveloppe gtag pour que chaque événement porte les dimensions.
-     Doit être chargé APRÈS le bootstrap gtag. -->
+<!-- Consentement & mesure — un seul module pour tout le site.
+     consent.js pose l'état Consentement v2, affiche le bandeau et charge GA4.
+     tracking.js enveloppe gtag et ajoute les dimensions.
+     L'ORDRE COMPTE : le consentement avant la mesure. -->
+<script src="/assets/consent.js"></script>
 <script src="/assets/tracking.js"></script>
 </head>
 <body>
@@ -2068,39 +2055,16 @@ header #brand-logo { height: 100px !important; }
     .cookie-btn { flex: 1; }
   }
 </style>
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Consentement cookies">
-  <div class="cookie-banner-text">
-    Nous utilisons des cookies de mesure d'audience (Google Analytics) afin d'améliorer ce simulateur. Aucune donnée personnelle n'est transmise à des fins publicitaires. Voir les
-    <button type="button" onclick="openLegal()" style="background:none;border:none;padding:0;color:var(--gold, var(--brand-primary, #B8912A));text-decoration:underline;cursor:pointer;font:inherit;">mentions légales</button>.
-  </div>
-  <div class="cookie-banner-actions">
-    <button type="button" class="cookie-btn cookie-btn-refuse" onclick="setCookieConsent(false)">Refuser</button>
-    <button type="button" class="cookie-btn cookie-btn-accept" onclick="setCookieConsent(true)">Accepter</button>
-  </div>
-</div>
-<script>
-(function() {
-  const CONSENT_KEY = 'retraitia_cookie_consent';
-  function getConsent() { try { return localStorage.getItem(CONSENT_KEY); } catch(e) { return null; } }
-  window.setCookieConsent = function(accepted) {
-    try { localStorage.setItem(CONSENT_KEY, accepted ? 'accepted' : 'refused'); } catch(e) {}
-    document.getElementById('cookieBanner')?.classList.remove('open');
-    if (accepted && typeof loadGA4 === 'function') loadGA4();
-  };
-  document.addEventListener('DOMContentLoaded', function() {
-    const consent = getConsent();
-    if (consent === 'accepted' && typeof loadGA4 === 'function') {
-      loadGA4();
-    } else if (consent !== 'refused' && consent !== 'accepted') {
-      document.getElementById('cookieBanner')?.classList.add('open');
-    }
-  });
-})();
-</script>
 
 <!-- ── Mentions légales & réglementaires — bouton discret + modale (toutes pages) ── -->
 <div class="legal-trigger-bar">
   <button type="button" class="legal-trigger" onclick="openLegal()">Mentions légales &amp; réglementaires</button>
+  <!-- La modale reste : elle informe au moment du parcours. Mais elle ne
+       suffit pas comme cadre légal — un validateur Google Ads ne peut pas
+       ouvrir une fenêtre modale. D'où les liens vers de vraies pages. -->
+  <div class="footer-legal" style="margin-top:8px;font-size:12px">
+    <a href="/mentions-legales" style="color:inherit;margin:0 8px">Mentions légales</a>·<a href="/confidentialite" style="color:inherit;margin:0 8px">Confidentialité</a>·<a href="#" style="color:inherit;margin:0 8px" onclick="window.RetraitiaConsent&amp;&amp;window.RetraitiaConsent.open();return false">Gérer les cookies</a>
+  </div>
   <div class="legal-copyright" id="brandCopyright"></div>
 </div>
 
@@ -2810,7 +2774,14 @@ function submitContact() {
     consent:   !!(consent && consent.checked),
     consentAt: new Date().toISOString()
   };
-  if (typeof gtag === 'function') { gtag('event', 'lead_submit', { brand: BRAND.name }); }
+  /* `generate_lead` est un nom recommandé par GA4 : il déclenche des rapports
+     intégrés qu'un nom maison n'obtient jamais. La `value` dit à Google Ads
+     combien vaut un lead — sans elle, l'algorithme traite un pharmacien et un
+     graphiste comme équivalents. C'est une moyenne (commissions encaissées sur
+     12 mois ÷ leads), à revoir chaque trimestre. */
+  if (typeof gtag === 'function') {
+    gtag('event', 'generate_lead', { brand: BRAND.name, value: 330, currency: 'EUR' });
+  }
 
   (async () => {
     try {
