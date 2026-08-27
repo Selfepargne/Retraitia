@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/favicon.png">
+<title>Page introuvable — retraitia</title>
+<meta name="robots" content="noindex, follow">
+<!--
+  Ce fichier n'est pas une page comme les autres : sa SEULE PRÉSENCE change
+  le comportement de l'hébergeur.
+
+  Cloudflare Pages, quand un chemin ne correspond à aucun fichier, cherche un
+  404.html dans le dossier le plus proche. S'il en trouve un, il le sert avec
+  un vrai code 404. S'il n'en trouve AUCUN, il retombe sur l'index d'accueil
+  et répond 200 — le comportement « application monopage ».
+
+  C'est ce qui se passait ici : /nimportequoi, /nimportequoi.css et
+  /simulateur/nimportequoi renvoyaient tous l'accueil, à l'octet près, avec
+  un code succès. Pour un site de 42 pages travaillées en référencement, cela
+  signifie un nombre illimité d'adresses servant le même contenu, que Google
+  classe en « soft 404 » et qui diluent les pages réelles.
+
+  Ne pas supprimer ce fichier en pensant qu'il ne sert à rien parce qu'il est
+  rarement affiché : le supprimer réactiverait le défaut.
+
+  Volontairement autonome — aucune dépendance à une feuille de style externe.
+  Une page d'erreur doit s'afficher même quand le reste ne se charge pas.
+-->
+<style>
+  :root {
+    --primary:    #2A52F4;
+    --secondary:  #8931ED;
+    --bg:         #F4F6FD;
+    --bg-card:    #FFFFFF;
+    --text:       #1B2241;
+    --text-muted: #55608B;
+    --border:     #CED5F3;
+    --grad: linear-gradient(100deg, #2A52F4 0%, #8931ED 100%);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 16px/1.65 'DM Sans', -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;
+  }
+  .card {
+    max-width: 560px;
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 44px 40px;
+    box-shadow: 0 18px 50px rgba(27, 34, 65, 0.10);
+  }
+  .brand {
+    font: 800 22px/1 'Space Grotesk', 'DM Sans', sans-serif;
+    letter-spacing: -0.5px;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 26px;
+  }
+  .code {
+    font: 700 12px/1 'DM Sans', sans-serif;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font: 700 30px/1.25 'Space Grotesk', 'DM Sans', sans-serif;
+    letter-spacing: -0.5px;
+    margin: 0 0 14px;
+  }
+  p { margin: 0 0 26px; color: var(--text-muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  a.btn {
+    display: inline-block;
+    padding: 13px 24px;
+    border-radius: 12px;
+    font: 600 15px/1 'DM Sans', sans-serif;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  a.primary { background: var(--grad); color: #fff; }
+  a.ghost { border-color: var(--border); color: var(--text); background: var(--bg-card); }
+  a.btn:hover { opacity: .9; }
+  @media (max-width: 480px) {
+    .card { padding: 32px 24px; }
+    h1 { font-size: 25px; }
+    .actions { flex-direction: column; }
+    a.btn { text-align: center; }
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">retraitia</div>
+    <div class="code">Erreur 404</div>
+    <h1>Cette page n'existe pas</h1>
+    <p>
+      L'adresse demandée ne correspond à aucune page du site. Elle a peut-être été
+      modifiée, ou le lien qui vous a amené ici comporte une erreur.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="/">Retour à l'accueil</a>
+      <a class="btn ghost" href="/simulateur/">Ouvrir le simulateur</a>
+    </div>
+  </main>
+</body>
+</html>
