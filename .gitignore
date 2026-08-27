@@ -1,1 +1,5 @@
 .manifest-*.json
+
+# Secrets locaux — les valeurs de production vivent dans Cloudflare
+.env
+.env.local

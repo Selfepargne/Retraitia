@@ -20,6 +20,9 @@
  *    RESEND_API_KEY      (optionnel) clé Resend ; si absente → e-mails ignorés, bilan
  *                                   quand même affiché à l'écran (mode v1 « écran seul »)
  *    MAIL_FROM           (optionnel) expéditeur vérifié dans Resend (ex. bilan@retraitia.com)
+ *    MAIL_TO             (optionnel) destinataire du brief conseiller. Fait autorité :
+ *                                   l'adresse du payload n'est PAS utilisée. Repli sur
+ *                                   MAIL_TO_FALLBACK si absente.
  *    BILAN_MODEL         (optionnel) override du modèle Claude
  *    ALLOWED_ORIGIN      (optionnel) origine autorisée pour CORS (défaut « * »)
  * ════════════════════════════════════════════════════════════════════════ */
@@ -31,6 +34,12 @@ const DEFAULT_MODEL = 'claude-sonnet-4-6';
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION = '2023-06-01';
 const MAX_TOKENS = 2000;
+
+// ── Destinataire du brief conseiller ─────────────────────────────────────────
+//    Repli utilisé UNIQUEMENT si la variable MAIL_TO manque en production, pour
+//    qu'une variable oubliée ne fasse pas disparaître les leads en silence.
+//    La valeur de production se règle dans Cloudflare, pas ici.
+const MAIL_TO_FALLBACK = 'Contact@per-patrimoine.fr';
 
 // ── GARDE-FOU #5 : disclaimer ajouté PAR TEMPLATE, jamais par l'IA ────────────
 const DISCLAIMER_BILAN =
@@ -730,7 +739,15 @@ async function dispatchEmails(env, f, lead, prospectHtml, briefHtml, scoring) {
   if (!env.RESEND_API_KEY) return; // mode v1 « écran seul » : pas d'envoi
 
   const from = env.MAIL_FROM || ('bilan@' + (deriveDomain(f) || 'exemple.fr'));
-  const cabinetTo = [f.cabinetEmail, f.cabinetEmailLeads].filter(Boolean);
+
+  /* Destinataire du brief : la variable d'environnement fait AUTORITÉ, elle
+     ne complète pas le payload. `f.cabinetEmail` vient de BRAND.email, donc
+     du navigateur : s'en servir revenait à laisser le client désigner qui
+     reçoit le brief, depuis un domaine vérifié Resend. La valeur de repli
+     garde le comportement actuel si MAIL_TO manque en production. */
+  const cabinetTo = [env.MAIL_TO || MAIL_TO_FALLBACK, f.cabinetEmailLeads]
+    .filter(Boolean)
+    .filter((addr, i, all) => all.indexOf(addr) === i);   /* Resend refuse les doublons */
   const tasks = [];
 
   // 1. Bilan prospect → prospect UNIQUEMENT (aucune copie cabinet)
