@@ -15,7 +15,8 @@
    ── CE QU'IL FAIT, DANS L'ORDRE ───────────────────────────────────────
    1. lit utm_*, gclid, ?src=, le référent et la page d'atterrissage ;
    2. en déduit canal, profession, caisse, statut, type et page d'entrée ;
-   3. conserve DEUX contextes — le premier (90 j) et le courant ;
+   3. conserve TROIS contextes — le premier (90 j), le courant, et
+      l'attribution publicitaire gelée à l'entrée dans la session ;
    4. enveloppe gtag pour que TOUS les événements portent les dimensions ;
    5. expose window.RetraitiaTracking pour le simulateur.
 
@@ -83,9 +84,16 @@
 
      • COURANT (sessionStorage) — le parcours d'aujourd'hui. C'est lui qui
        porte la profession de la page qu'on vient de lire, et qui la fait
-       suivre jusqu'au simulateur.                                        */
+       suivre jusqu'au simulateur.
+
+     • ATTRIBUTION (sessionStorage, §7) — les paramètres publicitaires bruts,
+       gelés à la première page de la session. C'est le seul des trois qui
+       quitte le navigateur : il part avec le lead. Volontairement séparé
+       des deux autres, parce qu'il n'a pas la même règle d'écriture — et
+       parce que toucher à ctx_last casserait des dimensions GA4 en place. */
   var K_FIRST = 'retraitia_ctx_first';
   var K_LAST  = 'retraitia_ctx_last';
+  var K_ATTR  = 'retraitia_attr';
   var FIRST_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
   function read(store, key) {
@@ -280,7 +288,67 @@
     return out;
   }
 
-  /* ══ 7. LES DIMENSIONS ENVOYÉES ══════════════════════════════════════
+  /* ══ 7. ATTRIBUTION PUBLICITAIRE — LE GEL ════════════════════════════
+     Les cinq paramètres que l'annonceur a payés, plus la page où le
+     visiteur a atterri. Ce bloc est destiné à sortir du navigateur : il
+     accompagne le lead jusqu'au brief conseiller, qui est aujourd'hui le
+     chemin par lequel l'attribution rejoint le CRM.
+
+     ── GEL ATOMIQUE, PAS PREMIER-ARRIVÉ PAR CHAMP ────────────────────
+     L'objet entier est écrit une fois, à la première page de la session,
+     puis plus jamais. On ne complète pas un champ vide plus tard.
+
+     La raison est une question de vérité, pas de simplicité : si un gclid
+     arrivé au troisième clic venait remplir un champ laissé vide au
+     premier, il se retrouverait associé à la landing d'une AUTRE visite.
+     Le tuple raconterait une arrivée qui n'a jamais eu lieu. Un champ
+     vide est une information ; un champ faux n'en est pas une.
+
+     C'est aussi ce qui rend `landing_slug` fiable : figé avec le reste,
+     il est la page d'ENTRÉE, jamais celle de conversion. Le simulateur
+     n'écrase rien parce qu'il n'écrit rien.
+
+     ── LA CASSE DU gclid ─────────────────────────────────────────────
+     `clean()` passe en minuscules — correct pour un utm, destructeur pour
+     un gclid, qui est sensible à la casse. Un gclid minusculé est rejeté
+     à l'import des conversions hors ligne dans Google Ads : la valeur du
+     contrat signé ne remonte jamais à la campagne qui l'a produit. D'où
+     `rawParam()`, qui se contente de couper les espaces et de borner.    */
+
+  /* 200 caractères : un gclid tourne autour de 90, mais Google en a
+     allongé le format par le passé. Borner large plutôt que tronquer un
+     identifiant, qui ne vaut rien s'il est incomplet. */
+  function rawParam(p, name) {
+    var v = p.get(name);
+    return v ? String(v).trim().slice(0, 200) : '';
+  }
+
+  function buildAttribution(p) {
+    var path = String(window.location.pathname || '')
+                 .replace(/^\/+|\/+$/g, '')
+                 .toLowerCase();
+    return {
+      ts:           Date.now(),
+      gclid:        rawParam(p, 'gclid'),
+      utm_source:   clean(p.get('utm_source')),
+      utm_campaign: clean(p.get('utm_campaign')),
+      utm_content:  clean(p.get('utm_content')),
+      utm_term:     clean(p.get('utm_term')),
+      landing_slug: path || 'accueil'
+    };
+  }
+
+  /* Copie en mémoire : en navigation privée, `write` échoue en silence et
+     `read` renverra null à la page suivante. Le gel est alors perdu d'une
+     page à l'autre, mais le lead soumis DEPUIS cette page part quand même
+     avec son attribution — c'est le cas qui compte. */
+  var memAttr = read('sessionStorage', K_ATTR);
+  if (!memAttr || !memAttr.ts) {
+    memAttr = buildAttribution(params());
+    write('sessionStorage', K_ATTR, memAttr);
+  }
+
+  /* ══ 8. LES DIMENSIONS ENVOYÉES ══════════════════════════════════════
      Le sujet vient du parcours courant : la profession de la page lue.
      Le canal vient du PREMIER passage : qui a payé pour cette personne.
 
@@ -307,7 +375,7 @@
   var extra = {};
   refresh();
 
-  /* ══ 8. L'ENVELOPPE gtag ═════════════════════════════════════════════
+  /* ══ 9. L'ENVELOPPE gtag ═════════════════════════════════════════════
      Le site déclare `function gtag(){ dataLayer.push(arguments) }` avant
      de charger ce fichier. On remplace la référence globale : les appels
      inline (onclick="gtag(…)") comme ceux des scripts de page passent
@@ -330,7 +398,7 @@
     };
   }
 
-  /* ══ 9. SURFACE PUBLIQUE ═════════════════════════════════════════════ */
+  /* ══ 10. SURFACE PUBLIQUE ═════════════════════════════════════════════ */
   window.RetraitiaTracking = {
     /** Contexte du premier passage — celui que le CRM devra enregistrer. */
     first: function () { return read('localStorage', K_FIRST) || first; },
@@ -338,6 +406,19 @@
     current: function () { return read('sessionStorage', K_LAST) || current; },
     /** Dimensions telles qu'elles partent avec chaque événement. */
     dimensions: function () { var c = {}; for (var k in enrichment) c[k] = enrichment[k]; return c; },
+
+    /**
+     * Attribution publicitaire gelée à l'entrée dans la session (§7).
+     * { ts, gclid, utm_source, utm_campaign, utm_content, utm_term, landing_slug }
+     * Toujours un objet — jamais null : `landing_slug` vaut au minimum
+     * « accueil », pour qu'un appelant n'ait pas à se protéger.
+     */
+    attribution: function () {
+      var a = read('sessionStorage', K_ATTR) || memAttr;
+      var c = {};
+      for (var k in a) c[k] = a[k];
+      return c;
+    },
 
     /**
      * Enrichit le contexte depuis le simulateur.
@@ -376,7 +457,7 @@
     return '2000+';
   }
 
-  /* ══ 10. CONTRÔLE DE COHÉRENCE ═══════════════════════════════════════
+  /* ══ 11. CONTRÔLE DE COHÉRENCE ═══════════════════════════════════════
      Le référentiel du §1 est une copie. Une copie diverge toujours.
 
      Si une page métier se charge et que sa clé est inconnue ici, la
