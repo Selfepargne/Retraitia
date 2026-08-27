@@ -2796,6 +2796,23 @@ function submitContact() {
   })();
 }
 
+/* ── Attribution publicitaire du lead ─────────────────────────────────
+   Posée par assets/tracking.js à la première page de la session, jamais
+   réécrite ensuite. Les deux voies de sortie du lead — FormSubmit et
+   /api/bilan — la joignent au lead : un lead capté par la voie de secours
+   ne doit pas perdre son origine.
+
+   Le try/catch n'est pas décoratif : le simulateur est aussi ouvert par
+   un harnais de backtest jsdom où tracking.js n'est pas chargé.        */
+function leadAttribution() {
+  try {
+    if (window.RetraitiaTracking && typeof window.RetraitiaTracking.attribution === 'function') {
+      return window.RetraitiaTracking.attribution();
+    }
+  } catch (e) { /* attribution absente : le lead part quand même */ }
+  return null;
+}
+
 // ── Transmission du lead par e-mail (relais FormSubmit, sans backend) ──
 const LEAD_EMAIL = 'simulateur@retraitia.com';   // destinataire des leads FormSubmit (notification interne)
 async function sendLead(lead) {
@@ -2831,6 +2848,24 @@ async function sendLead(lead) {
       if (lcd.effortMensuel != null) payload['Effort mensuel'] = fmtE(lcd.effortMensuel) + ' /mois';
     }
   } catch (e) { /* résumé best-effort */ }
+
+  /* Attribution — bloc distinct du résumé chiffré ci-dessus : si le
+     résumé échoue, l'origine du lead part quand même. C'est la voie de
+     secours, elle doit céder le moins de terrain possible. */
+  const attr = leadAttribution();
+  if (attr) {
+    payload["Page d'entrée"] = attr.landing_slug || '—';
+    if (attr.utm_source)   payload['Source'] = attr.utm_source;
+    if (attr.utm_campaign) payload['Campagne'] = attr.utm_campaign;
+    if (attr.utm_content)  payload['Annonce'] = attr.utm_content;
+    if (attr.utm_term)     payload['Mot-clé'] = attr.utm_term;
+    if (attr.gclid)        payload['gclid'] = attr.gclid;
+    /* Dire explicitement « aucun paramètre » plutôt que taire la ligne :
+       sinon un lead SEO ressemble à un lead dont le suivi a échoué. */
+    if (!attr.gclid && !attr.utm_source && !attr.utm_campaign) {
+      payload['Acquisition'] = 'Aucun paramètre publicitaire — visite directe, SEO ou lien nu';
+    }
+  }
 
   try {
     const res = await fetch('https://formsubmit.co/ajax/' + LEAD_EMAIL, {
@@ -2881,7 +2916,10 @@ async function generateBilanIA(lead) {
     const res = await fetch(BILAN_API_URL, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ payload, lead: lead || null })
+      /* `attribution` est une clé de premier niveau, pas un champ du
+         payload : buildSimulationPayload() reste la source de vérité du
+         PDF, et rien d'acquisition n'entre dans le template. */
+      body:    JSON.stringify({ payload, lead: lead || null, attribution: leadAttribution() })
     });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
