@@ -8,9 +8,12 @@
  *
  *  Produit, EN UN SEUL appel LLM :
  *    1.  BILAN PROSPECT   — pédagogique, encourageant. Renvoyé au client (affiché
- *                           à l'écran) + envoyé au prospect par e-mail, copie cabinet.
+ *                           à l'écran) + envoyé AU PROSPECT UNIQUEMENT. Aucune
+ *                           copie cabinet : le cabinet en reçoit le texte dans le
+ *                           brief, sous « Copie du bilan reçu par le prospect ».
  *    2.  BRIEF CONSEILLER  — interne. Score + angles d'accroche + copie du bilan.
- *                           Envoyé AU CABINET UNIQUEMENT. Jamais renvoyé au client.
+ *                           Envoyé AU CABINET UNIQUEMENT (MAIL_TO), avec reply-to
+ *                           vers le prospect. Jamais renvoyé au client.
  *
  *  ⚠️ Le prospect ne voit JAMAIS le score ni le brief : ils ne quittent pas le serveur.
  *  ⚠️ Cette fonction NE TOUCHE PAS à FormSubmit : elle tourne en parallèle, en plus.
@@ -19,10 +22,15 @@
  *    ANTHROPIC_API_KEY   (requis)   clé API Anthropic — NE JAMAIS committer dans le code
  *    RESEND_API_KEY      (optionnel) clé Resend ; si absente → e-mails ignorés, bilan
  *                                   quand même affiché à l'écran (mode v1 « écran seul »)
- *    MAIL_FROM           (optionnel) expéditeur vérifié dans Resend (ex. bilan@retraitia.com)
- *    MAIL_TO             (optionnel) destinataire du brief conseiller. Fait autorité :
- *                                   l'adresse du payload n'est PAS utilisée. Repli sur
- *                                   MAIL_TO_FALLBACK si absente.
+ *    MAIL_FROM           (optionnel) expéditeur, domaine VÉRIFIÉ dans Resend.
+ *                                   Repli sur MAIL_FROM_FALLBACK si absente.
+ *    MAIL_TO             (optionnel) destinataire du brief conseiller.
+ *                                   Repli sur MAIL_TO_FALLBACK si absente.
+ *
+ *  ⚠️ Aucune adresse du payload ne décide où part un e-mail. Le payload arrive
+ *     du navigateur : s'en servir laissait le client choisir qui reçoit un lead,
+ *     depuis un domaine vérifié Resend. Expéditeur et destinataire viennent
+ *     exclusivement des variables ci-dessus.
  *    BILAN_MODEL         (optionnel) override du modèle Claude
  *    ALLOWED_ORIGIN      (optionnel) origine autorisée pour CORS (défaut « * »)
  * ════════════════════════════════════════════════════════════════════════ */
@@ -35,11 +43,15 @@ const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION = '2023-06-01';
 const MAX_TOKENS = 2000;
 
-// ── Destinataire du brief conseiller ─────────────────────────────────────────
-//    Repli utilisé UNIQUEMENT si la variable MAIL_TO manque en production, pour
+// ── Adresses e-mail — replis ─────────────────────────────────────────────────
+//    Utilisés UNIQUEMENT si MAIL_TO / MAIL_FROM manquent en production, pour
 //    qu'une variable oubliée ne fasse pas disparaître les leads en silence.
-//    La valeur de production se règle dans Cloudflare, pas ici.
+//    Les valeurs de production se règlent dans Cloudflare, pas ici.
+//    L'expéditeur doit être un domaine VÉRIFIÉ dans Resend, sans quoi l'envoi
+//    est refusé — d'où un repli constant plutôt que déduit d'un domaine reçu
+//    du navigateur, qui ne l'était pas forcément.
 const MAIL_TO_FALLBACK = 'Contact@per-patrimoine.fr';
+const MAIL_FROM_FALLBACK = 'bilan@retraitia.com';
 
 // ── GARDE-FOU #5 : disclaimer ajouté PAR TEMPLATE, jamais par l'IA ────────────
 const DISCLAIMER_BILAN =
@@ -217,8 +229,10 @@ function extractFacts(payload, lead) {
 
     // Cabinet
     cabinet: b.name || 'votre conseiller',
+    /* cabinetEmail ne sert QUE d'affichage. Le destinataire des e-mails vient
+       de MAIL_TO / MAIL_FROM : aucune adresse issue du payload ne décide plus
+       où part quoi que ce soit. */
     cabinetEmail: b.email || '',
-    cabinetEmailLeads: b.emailLeads || '',
     cabinetPhone: b.phone || '',
     ctaUrl: b.ctaUrl || '',
 
@@ -738,16 +752,14 @@ function renderBriefHtml(c, scoring, f, prospectCopy, attribution) {
 async function dispatchEmails(env, f, lead, prospectHtml, briefHtml, scoring) {
   if (!env.RESEND_API_KEY) return; // mode v1 « écran seul » : pas d'envoi
 
-  const from = env.MAIL_FROM || ('bilan@' + (deriveDomain(f) || 'exemple.fr'));
-
-  /* Destinataire du brief : la variable d'environnement fait AUTORITÉ, elle
-     ne complète pas le payload. `f.cabinetEmail` vient de BRAND.email, donc
-     du navigateur : s'en servir revenait à laisser le client désigner qui
-     reçoit le brief, depuis un domaine vérifié Resend. La valeur de repli
-     garde le comportement actuel si MAIL_TO manque en production. */
-  const cabinetTo = [env.MAIL_TO || MAIL_TO_FALLBACK, f.cabinetEmailLeads]
-    .filter(Boolean)
-    .filter((addr, i, all) => all.indexOf(addr) === i);   /* Resend refuse les doublons */
+  /* Expéditeur et destinataire viennent des variables d'environnement, avec
+     un repli constant. AUCUNE adresse du payload n'intervient : celui-ci
+     arrive du navigateur, et s'en servir laissait le client décider qui
+     reçoit un lead — depuis un domaine vérifié Resend. Les replis existent
+     pour qu'une variable oubliée ne fasse pas disparaître les leads en
+     silence, pas pour être utilisés en production. */
+  const from = env.MAIL_FROM || MAIL_FROM_FALLBACK;
+  const cabinetTo = [env.MAIL_TO || MAIL_TO_FALLBACK];
   const tasks = [];
 
   // 1. Bilan prospect → prospect UNIQUEMENT (aucune copie cabinet)
@@ -760,11 +772,17 @@ async function dispatchEmails(env, f, lead, prospectHtml, briefHtml, scoring) {
     }));
   }
 
-  // 2. Brief conseiller → CABINET UNIQUEMENT
+  /* 2. Brief conseiller → CABINET UNIQUEMENT.
+        `reply_to` pointe sur le prospect : répondre à un brief est le geste
+        naturel du conseiller qui vient de le lire, et sans cela la réponse
+        partait à l'adresse d'envoi, où personne ne la lit. Un échec
+        silencieux, du genre qu'on ne découvre qu'en demandant au prospect
+        pourquoi il n'a jamais répondu. */
   if (cabinetTo.length) {
     tasks.push(sendEmail(env, {
       from,
       to: cabinetTo,
+      replyTo: f.emailProspect || undefined,
       subject: `Lead ${scoring.temperature.toUpperCase()} (${scoring.total}/100) — ${f.prenom} ${f.nom}`.trim(),
       html: briefHtml,
     }));
@@ -773,15 +791,9 @@ async function dispatchEmails(env, f, lead, prospectHtml, briefHtml, scoring) {
   await Promise.allSettled(tasks);
 }
 
-function deriveDomain(f) {
-  const e = f.cabinetEmail || '';
-  const at = e.indexOf('@');
-  return at !== -1 ? e.slice(at + 1) : '';
-}
-
-async function sendEmail(env, { from, to, cc, subject, html }) {
+async function sendEmail(env, { from, to, replyTo, subject, html }) {
   const body = { from, to, subject, html };
-  if (cc && cc.length) body.cc = cc;
+  if (replyTo) body.reply_to = replyTo;
   const resp = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {

@@ -2148,8 +2148,10 @@ const BRAND = {
 
   // ── Coordonnées cabinet ──────────────────────────────────────
   phone:       '07 67 99 59 45',
-  email:       'Contact@per-patrimoine.fr',   // notifications internes : copie du bilan prospect + destinataire du brief conseiller
-  emailLeads:  '',   // copie supplémentaire éventuelle — vide = seul BRAND.email reçoit
+  // Affichage uniquement (pied du bilan, coordonnées). N'est PLUS le
+  // destinataire des e-mails : celui-ci vient de MAIL_TO côté serveur, pour
+  // que le navigateur ne puisse pas désigner qui reçoit un lead.
+  email:       'Contact@per-patrimoine.fr',
   website:     'www.per-patrimoine.fr',
 
   // ── CTA ──────────────────────────────────────────────────────
@@ -2820,7 +2822,6 @@ async function sendLead(lead) {
   const fmtE = v => (Math.round(v)).toLocaleString('fr-FR') + ' €';
   const payload = {
     _subject:  `Lead — ${(typeof BRAND !== 'undefined' && BRAND.name) ? BRAND.name : 'Simulateur'} — ${lead.firstName} ${lead.lastName}`,
-    _cc:       (typeof BRAND !== 'undefined' && BRAND.emailLeads) ? BRAND.emailLeads : undefined,
     _template: 'table',
     Prénom:    lead.firstName,
     Nom:       lead.lastName,
