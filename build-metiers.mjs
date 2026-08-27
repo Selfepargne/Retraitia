@@ -1,6 +1,6 @@
 // ════════════════════════════════════════════════════════════════════════
 //  build-metiers.mjs — USINE À PAGES MÉTIER retraitia
-//  Lit  : _template-metier.html  +  professions.json
+//  Lit  : .template-metier.html  +  professions.json  (gabarit caché : non publié)
 //  Écrit: ./pages/retraite-<slug>.html  (statiques, prêtes à déployer)
 //         + .manifest-metiers.json (slugs générés — lu par build-sitemap.mjs)
 //  Lance: node build-metiers.mjs
@@ -95,7 +95,12 @@ function fill(tpl, map) {
 }
 
 // ── 6. Build ────────────────────────────────────────────────────────────
-const template = readFileSync('_template-metier.html', 'utf-8');
+/* Le point initial n'est pas cosmétique : Cloudflare Pages ne publie pas les
+   fichiers cachés. Sous « _template-metier.html », le gabarit était servi à
+   /_template-metier — 111 Ko de contenu quasi identique aux 25 pages qu'il
+   produit, accessible et indexable. Le renommer suffit à le retirer du site
+   sans le sortir du dépôt, là où les builders le cherchent. */
+const template = readFileSync('.template-metier.html', 'utf-8');
 const pages    = JSON.parse(readFileSync('professions.json', 'utf-8'));
 // Lecture seule — pour le maillage profession → caisse (point 7). N'écrit jamais
 // dans caisses.json, ne modifie jamais son contenu. Si le fichier n'existe pas

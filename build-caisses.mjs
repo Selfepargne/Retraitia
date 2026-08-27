@@ -1,9 +1,10 @@
 // ════════════════════════════════════════════════════════════════════════
 //  build-caisses.mjs — USINE À PAGES CAISSES retraitia
 //  ÉTAPE 2 / 3 : génération réelle, pilotée à 100 % par les données.
-//  Lit  : _template-caisse.html + caisses.json + professions.json (lecture
-//         seule, pour reconstruire automatiquement les professions affiliées
-//         — aucune donnée dupliquée entre les deux fichiers JSON).
+//  Lit  : .template-caisse.html (gabarit caché : non publié) + caisses.json
+//         + professions.json (lecture seule, pour reconstruire automatiquement
+//         les professions affiliées — aucune donnée dupliquée entre les deux
+//         fichiers JSON).
 //  Écrit: ./retraite-<slug-caisse>.html (à la racine, même convention que
 //         les pages métier) + .manifest-caisses.json (slugs générés).
 //  Lance: node build-caisses.mjs
@@ -214,7 +215,10 @@ function fill(tpl, map) {
 }
 
 // ── 6. Build ─────────────────────────────────────────────────────────────
-const template   = readFileSync('_template-caisse.html', 'utf-8');
+/* Point initial volontaire — cf. build-metiers.mjs : un fichier caché n'est
+   pas publié par Cloudflare Pages. Le gabarit reste dans le dépôt, il quitte
+   seulement le site. */
+const template   = readFileSync('.template-caisse.html', 'utf-8');
 const caisses     = JSON.parse(readFileSync('caisses.json', 'utf-8'));
 const professions = JSON.parse(readFileSync('professions.json', 'utf-8')); // lecture seule — source unique de vérité
 
