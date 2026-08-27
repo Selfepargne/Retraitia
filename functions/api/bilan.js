@@ -81,6 +81,12 @@ export async function onRequestPost({ request, env }) {
 
   const payload = body && body.payload;
   const lead = (body && body.lead) || {};
+  /* Attribution : volontairement TENUE HORS de `facts`. `facts` alimente
+     buildUserMessage() — donc le prompt du modèle — et renderProspectHtml().
+     Garder l'attribution dans une variable séparée est ce qui garantit,
+     structurellement, qu'un gclid ne partira jamais chez le prospect ni
+     chez Anthropic : il n'y a pas de chemin par lequel il pourrait. */
+  const attribution = sanitizeAttribution(body && body.attribution);
   if (!payload || !payload.state || !payload.projectionData) {
     return json({ ok: false, error: 'Données de simulation manquantes.' }, 400, env);
   }
@@ -112,7 +118,7 @@ export async function onRequestPost({ request, env }) {
   // 6. E-mails (Resend) — best-effort, EN PARALLÈLE, sans bloquer la réponse au client.
   //    Si RESEND_API_KEY absente → ignorés silencieusement (bilan affiché quand même).
   const prospectHtml = renderProspectHtml(prospect, facts);
-  const briefHtml = renderBriefHtml(conseiller, scoring, facts, prospect);
+  const briefHtml = renderBriefHtml(conseiller, scoring, facts, prospect, attribution);
   const emailTask = dispatchEmails(env, facts, lead, prospectHtml, briefHtml, scoring);
 
   // En contexte Cloudflare, on attend les e-mails (rapide) — mais une erreur d'envoi
@@ -225,6 +231,53 @@ function num(v) {
 function eur(v) {
   if (v == null) return '—';
   return v.toLocaleString('fr-FR') + ' €';
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ *  ATTRIBUTION PUBLICITAIRE — assainissement
+ *  Posée par assets/tracking.js à la première page de la session, gelée
+ *  ensuite. Elle arrive du navigateur : on la reprend champ par champ,
+ *  jamais en bloc, pour qu'un client bricolé ne puisse pas injecter de
+ *  clés arbitraires dans un e-mail que le cabinet va lire.
+ *
+ *  Le gclid n'est PAS normalisé en minuscules — il est sensible à la casse,
+ *  et c'est lui qui permettra de remonter la valeur d'un contrat signé à la
+ *  campagne qui l'a produit. Le minusculer le rendrait inutilisable.
+ * ────────────────────────────────────────────────────────────────────────── */
+const ATTR_FIELDS = {
+  gclid: 200,          // large : le format Google s'est déjà allongé par le passé
+  utm_source: 100,
+  utm_campaign: 100,
+  utm_content: 100,
+  utm_term: 100,
+  landing_slug: 100,
+};
+
+function sanitizeAttribution(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const out = {};
+  for (const [key, max] of Object.entries(ATTR_FIELDS)) {
+    const v = raw[key];
+    if (typeof v !== 'string' && typeof v !== 'number') continue;
+    /* Les caractères de contrôle sortent : une valeur d'URL n'en contient
+       pas, et ils n'ont rien à faire dans un e-mail. */
+    const s = stripControls(String(v)).trim().slice(0, max);
+    if (s) out[key] = s;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+/* Filtrage par point de code plutôt que par classe de caractères : une
+   valeur d'URL ne contient jamais de caractère de contrôle, et ceux-ci
+   n'ont rien à faire dans un e-mail HTML. Écrit ainsi, le seuil se lit
+   sans avoir à décoder une plage d'échappements. */
+function stripControls(str) {
+  let out = '';
+  for (const ch of str) {
+    const cp = ch.codePointAt(0);
+    if (cp > 31 && cp !== 127) out += ch;
+  }
+  return out;
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -539,7 +592,61 @@ function renderProspectHtml(p, f) {
   </div>`;
 }
 
-function renderBriefHtml(c, scoring, f, prospectCopy) {
+/* ──────────────────────────────────────────────────────────────────────────
+ *  BLOC ACQUISITION — destiné à être RECOPIÉ À LA MAIN dans le CRM
+ *
+ *  Le site n'écrit pas dans le CRM : ce bloc EST le chemin par lequel
+ *  l'attribution y arrive. Tout ici sert la recopie, pas l'esthétique :
+ *
+ *    • une valeur par ligne, en pleine largeur — un triple-clic sélectionne
+ *      la valeur et rien d'autre. Le tableau à deux colonnes du reste du
+ *      brief, aligné à droite, sélectionne le libellé avec ;
+ *    • le gclid en chasse fixe et `word-break:break-all` — il fait ~90
+ *      caractères, il doit s'afficher ENTIER. Un gclid tronqué ou coupé
+ *      par un « … » ne vaut rien : il ne s'importe pas dans Google Ads ;
+ *    • aucun lien, aucune abréviation, aucun code interne. Ce qui est
+ *      affiché est exactement ce qui doit être collé ;
+ *    • quand rien n'est venu de la pub, on l'écrit — sinon un lead SEO
+ *      ressemble à un lead dont le suivi a échoué.
+ * ────────────────────────────────────────────────────────────────────────── */
+function renderAcquisitionHtml(a, C, h) {
+  if (!a) return '';
+
+  const line = (label, value, mono) => value ? `
+        <tr><td style="padding:9px 14px;border-bottom:1px solid #EEF0F8;">
+          <div style="font:700 10px Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8892B9;margin-bottom:3px;">${esc(label)}</div>
+          <div style="font:${mono ? "400 13px/1.55 Consolas,'Courier New',monospace" : '600 14px/1.45 Arial,Helvetica,sans-serif'};color:#1B2241;word-break:break-all;">${esc(value)}</div>
+        </td></tr>` : '';
+
+  /* Une campagne balisée avec {campaignid} arrive comme un nombre. Le dire
+     évite au conseiller de chercher un nom qui n'a jamais été transmis. */
+  const campagneEstUnId = /^\d+$/.test(a.utm_campaign || '');
+  const aucunParam = !a.gclid && !a.utm_source && !a.utm_campaign && !a.utm_content && !a.utm_term;
+
+  return `
+      ${h('Acquisition')}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F8F9FE;border:1px solid #E6EAF8;border-radius:10px;">
+        ${line("Page d'entrée", a.landing_slug)}
+        ${line('Source', a.utm_source)}
+        ${line(campagneEstUnId ? 'Campagne — ID' : 'Campagne', a.utm_campaign)}
+        ${line('Annonce', a.utm_content)}
+        ${line('Mot-clé', a.utm_term)}
+        ${line('gclid', a.gclid, true)}
+        ${aucunParam ? `
+        <tr><td style="padding:9px 14px;font:400 13px/1.5 Arial,Helvetica,sans-serif;color:#55608B;">
+          Aucun param&egrave;tre publicitaire &mdash; visite directe, SEO ou lien nu.
+        </td></tr>` : ''}
+        ${a.gclid && !a.utm_campaign ? `
+        <tr><td style="padding:9px 14px;font:400 12px/1.5 Arial,Helvetica,sans-serif;color:#55608B;">
+          Nom de campagne non transmis par l'annonce &mdash; retrouvable dans Google Ads &agrave; partir du gclid.
+        </td></tr>` : ''}
+      </table>
+      <div style="margin-top:7px;font:400 11px Arial,Helvetica,sans-serif;color:#8892B9;">
+        Valeurs relev&eacute;es &agrave; l'arriv&eacute;e sur le site, &agrave; recopier telles quelles dans le CRM.
+      </div>`;
+}
+
+function renderBriefHtml(c, scoring, f, prospectCopy, attribution) {
   const C = f;
   const grad = 'background:#4A3AD0;background-image:linear-gradient(125deg,' + C.secondary + ' 0%,' + C.gold + ' 70%)';
   const temp = scoring.temperature || '';
@@ -574,6 +681,8 @@ function renderBriefHtml(c, scoring, f, prospectCopy) {
         ${row('E-mail', `<a href="mailto:${esc(C.emailProspect)}" style="color:${C.gold};text-decoration:none;">${esc(C.emailProspect)}</a>`)}
         ${row('Téléphone', C.telephone ? `<a href="tel:${esc(C.telephone)}" style="color:${C.gold};text-decoration:none;">${esc(C.telephone)}</a>` : '')}
       </table>
+
+      ${renderAcquisitionHtml(attribution, C, h)}
 
       ${h('Profil & chiffres clés')}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
