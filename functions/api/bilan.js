@@ -227,12 +227,11 @@ function extractFacts(payload, lead) {
           : null),
     lifestylePct: s.lifestyle != null ? Math.round(s.lifestyle * 100) : null,
 
-    // Cabinet
+    /* Cabinet — le nom et le téléphone sont affichés dans les e-mails.
+       Aucune adresse e-mail ici : le destinataire vient de MAIL_TO, l'expéditeur
+       de MAIL_FROM. Rien de ce qui arrive du navigateur ne décide plus où part
+       un e-mail, donc rien n'a besoin de l'adresse cabinet du payload. */
     cabinet: b.name || 'votre conseiller',
-    /* cabinetEmail ne sert QUE d'affichage. Le destinataire des e-mails vient
-       de MAIL_TO / MAIL_FROM : aucune adresse issue du payload ne décide plus
-       où part quoi que ce soit. */
-    cabinetEmail: b.email || '',
     cabinetPhone: b.phone || '',
     ctaUrl: b.ctaUrl || '',
 
