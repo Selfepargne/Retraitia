@@ -27,3 +27,31 @@
 /_template-metier.html   /  301
 /_template-caisse        /  301
 /_template-caisse.html   /  301
+
+# ── Sources de génération et configuration ──────────────────────────────
+# Inventaire mesuré le 2026-08-28 : ces fichiers étaient tous servis en 200.
+#
+# Le dépôt EST la racine publiée — il n'y a pas d'étape de build, donc pas
+# de répertoire de sortie qui filtrerait quoi que ce soit. Tout ce qui est
+# commité est en ligne, sauf ce que Cloudflare exclut lui-même : functions/
+# et les fichiers de configuration comme celui-ci (vérifiés en 404).
+#
+# professions.json et caisses.json sont les plus lourds de conséquence :
+# 414 Ko à eux deux, soit l'intégralité du contenu éditorial — chiffres,
+# FAQ, textes — dont sont tirées les 34 pages, en deux requêtes et sous
+# forme exploitable par une machine. Aucune page ne les charge : ils sont
+# lus au build par les scripts, et loadParams() du simulateur va chercher
+# un dépôt GitHub tiers, pas ceux-ci. Les retirer ne casse rien.
+#
+# Les build-*.mjs exposent la logique de génération et ses commentaires
+# internes. .env.example donne le point d'entrée du CRM, le nom de
+# l'en-tête d'authentification et la liste des variables — aucun secret,
+# mais le mode d'emploi pour tenter d'y injecter des leads.
+/.env.example            /  301
+/.gitignore              /  301
+/build.mjs               /  301
+/build-metiers.mjs       /  301
+/build-caisses.mjs       /  301
+/build-sitemap.mjs       /  301
+/professions.json        /  301
+/caisses.json            /  301
