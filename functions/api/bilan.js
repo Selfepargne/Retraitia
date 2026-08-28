@@ -53,6 +53,14 @@ const MAX_TOKENS = 2000;
 const MAIL_TO_FALLBACK = 'Contact@per-patrimoine.fr';
 const MAIL_FROM_FALLBACK = 'bilan@retraitia.com';
 
+// ── Ingestion CRM ────────────────────────────────────────────────────────────
+//    Cible fixe, surchargeable par env.CRM_INTAKE_URL si une recette apparaît —
+//    même motif que les adresses ci-dessus.
+//    Le jeton, lui, n'a PAS de repli : sans INTAKE_TOKEN l'appel n'est pas
+//    tenté. Un jeton n'a pas de valeur par défaut raisonnable, et un POST sans
+//    en-tête d'authentification serait rejeté de toute façon.
+const CRM_INTAKE_URL = 'https://crm.retraitia.com/api/leads/intake';
+
 // ── GARDE-FOU #5 : disclaimer ajouté PAR TEMPLATE, jamais par l'IA ────────────
 const DISCLAIMER_BILAN =
   "Ce bilan est une simulation pédagogique fondée sur les règles réglementaires 2026. " +
@@ -86,7 +94,7 @@ function json(body, status, env) {
 /* ──────────────────────────────────────────────────────────────────────────
  *  Handler principal
  * ────────────────────────────────────────────────────────────────────────── */
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   // 1. Clé API présente ?
   if (!env || !env.ANTHROPIC_API_KEY) {
     return json({ ok: false, error: 'Configuration serveur incomplète (ANTHROPIC_API_KEY manquante).' }, 500, env);
@@ -146,7 +154,38 @@ export async function onRequestPost({ request, env }) {
   // ne doit jamais empêcher l'affichage du bilan.
   try { await emailTask; } catch (e) { /* envoi best-effort */ }
 
-  // 7. Réponse au CLIENT — UNIQUEMENT le bilan prospect. Ni score, ni brief, ni angles, ni priorité.
+  /* 7. INGESTION CRM — en tâche de fond, après la réponse au visiteur.
+   *
+   *  Placée ICI, et pas plus haut, pour deux raisons d'ordre :
+   *    • les e-mails sont déjà partis et attendus, donc le brief conseiller —
+   *      bloc Acquisition compris — est envoyé quoi qu'il advienne du CRM ;
+   *    • `waitUntil` laisse la réponse sortir immédiatement : le POST continue
+   *      derrière, le visiteur n'attend jamais le CRM.
+   *
+   *  ── POURQUOI CE try/catch ─────────────────────────────────────────────
+   *  Il ne protège pas le CRM — postLeadToCrm() gère déjà ses propres échecs
+   *  et ne rejette jamais. Il protège LE VISITEUR.
+   *
+   *  Nous sommes après l'envoi des e-mails mais AVANT le `return json(...)`.
+   *  Une exception levée ici — un champ inattendu dans buildCrmPayload(), un
+   *  `waitUntil` absent du contexte d'exécution — remonterait jusqu'au
+   *  gestionnaire et transformerait un bilan parfaitement calculé, déjà
+   *  expédié par e-mail, en erreur 500 à l'écran. Le visiteur verrait un
+   *  échec là où tout a réussi, à cause d'un appel dont il ignore l'existence.
+   *
+   *  Une ingestion ratée est un lead à ressaisir. Un bilan perdu est un
+   *  prospect perdu. Ce bloc ne peut pas faire tomber le second pour le
+   *  premier.                                                              */
+  try {
+    const crmTask = postLeadToCrm(env, buildCrmPayload(facts, lead, attribution));
+    /* Hors Cloudflare (harnais de test), `waitUntil` n'existe pas : la promesse
+       tourne alors sans supervision, ce qui suffit puisqu'elle n'échoue pas. */
+    if (typeof waitUntil === 'function') waitUntil(crmTask);
+  } catch (err) {
+    console.error('[crm] ingestion non déclenchée : ' + (err && err.message ? err.message : String(err)));
+  }
+
+  // 8. Réponse au CLIENT — UNIQUEMENT le bilan prospect. Ni score, ni brief, ni angles, ni priorité.
   //    Schéma EXACTEMENT aligné avec l'affichage écran (renderBilanIA) et l'e-mail prospect (OBJ 8) :
   //    situation / impactNiveauVie / strategiePossible / prochaineEtape.
   return json({
@@ -804,5 +843,107 @@ async function sendEmail(env, { from, to, replyTo, subject, html }) {
   if (!resp.ok) {
     const t = await resp.text().catch(() => '');
     console.error('Resend ' + resp.status + ' : ' + t.slice(0, 200));
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ *  INGESTION CRM — POST /api/leads/intake
+ *
+ *  Dernier maillon de la chaîne d'acquisition : jusqu'ici le lead sortait
+ *  uniquement par e-mail — brief conseiller et notification FormSubmit — et
+ *  était ressaisi à la main. Ce POST lui donne une entrée automatique.
+ *
+ *  ── CHAMPS ────────────────────────────────────────────────────────────
+ *  `profession` et `professionalStatus` visent deux colonnes distinctes et
+ *  partent tous les deux. `profession` (tnsProfession) est vide pour un lead
+ *  salarié : ce n'est pas un défaut mais la distinction même que les deux
+ *  colonnes existent pour porter — un salarié a un statut professionnel, pas
+ *  une profession libérale.
+ *
+ *  ── birthDate EST VOLONTAIREMENT ABSENT ───────────────────────────────
+ *  Le contrat l'accepte, le simulateur ne peut pas le fournir : il ne demande
+ *  que l'ANNÉE de naissance (simulateur/index.html, champ #birthYear). Ni jour
+ *  ni mois, nulle part dans le parcours.
+ *
+ *  Envoyer « AAAA-01-01 » serait écrire dans le CRM une date fausse
+ *  indiscernable d'une vraie, et ruiner précisément ce à quoi une date de
+ *  naissance sert : dédoublonner et recouper. Un champ absent se voit ; une
+ *  donnée fausse ne se voit pas. Si le CRM en a besoin, la correction est un
+ *  champ de formulaire en plus côté site, pas une valeur inventée ici.
+ * ────────────────────────────────────────────────────────────────────────── */
+function buildCrmPayload(facts, lead, attribution) {
+  const a = attribution || {};
+  const l = lead || {};
+  return {
+    // Identité
+    firstName: facts.prenom || '',
+    lastName:  facts.nom || '',
+    email:     facts.emailProspect || '',
+    phone:     facts.telephone || '',
+
+    // Profil professionnel — deux colonnes, deux sens (cf. en-tête)
+    profession:         facts.profession || '',   // tnsProfession, vide hors TNS
+    professionalStatus: facts.statut || '',       // cadre | non-cadre | fonctionnaire | tns | liberal | self-employed
+
+    // Acquisition — gelée à l'entrée dans la session, déjà assainie serveur.
+    // gclid conservé dans sa casse d'origine : il sert aux conversions hors ligne.
+    gclid:        a.gclid || '',
+    utm_source:   a.utm_source || '',
+    utm_campaign: a.utm_campaign || '',
+    utm_content:  a.utm_content || '',
+    utm_term:     a.utm_term || '',
+    landing_slug: a.landing_slug || '',
+
+    // Consentement — déclaratif, tel que recueilli dans le formulaire
+    consent:   !!l.consent,
+    consentAt: l.consentAt || '',
+
+    // Chiffres — `null` plutôt qu'un zéro trompeur quand la valeur manque
+    grossSalary:      facts.salaireBrutAnnuel,      // € / an
+    retirementAge:    facts.ageDepart,              // années
+    estimatedPension: facts.pensionNetteMensuelle,  // € / mois
+    monthlyGap:       facts.manqueMensuel,          // € / mois, POSITIF — Math.max(0, objectif - pension)
+    replacementRate:  facts.tauxRemplacement,       // pourcentage à une décimale (48.2), pas un ratio
+  };
+}
+
+/* Ne rejette JAMAIS. Tout échec est journalisé avec son motif et absorbé :
+   l'appelant est en tâche de fond, une promesse rejetée n'y serait vue de
+   personne. Quatre motifs distincts, pour qu'un log suffise au diagnostic
+   sans avoir à reproduire.
+
+   Le jeton n'apparaît dans aucun message. L'e-mail, si : c'est la clé du lead
+   côté CRM, et sans elle un échec journalisé ne dit pas QUEL lead ressaisir. */
+async function postLeadToCrm(env, payload) {
+  const token = env && env.INTAKE_TOKEN;
+  if (!token) {
+    console.error('[crm] ingestion ignorée — INTAKE_TOKEN absente de l\'environnement');
+    return;
+  }
+  if (!payload || !payload.email) {
+    console.error('[crm] ingestion ignorée — lead sans e-mail, champ requis par /api/leads/intake');
+    return;
+  }
+
+  const url = (env && env.CRM_INTAKE_URL) || CRM_INTAKE_URL;
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Ingest-Token': token,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!resp.ok) {
+      const t = await resp.text().catch(() => '');
+      console.error('[crm] ingestion refusée — HTTP ' + resp.status + ' pour ' + payload.email +
+                    (t ? ' : ' + t.slice(0, 300) : ''));
+      return;
+    }
+    console.log('[crm] lead ingéré — ' + payload.email);
+  } catch (err) {
+    console.error('[crm] ingestion échouée (réseau) pour ' + payload.email + ' : ' +
+                  (err && err.message ? err.message : String(err)));
   }
 }
