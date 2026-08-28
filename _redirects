@@ -1,0 +1,29 @@
+# ════════════════════════════════════════════════════════════════════════
+#  _redirects — règles de redirection Cloudflare Pages
+#  Format : <chemin source>  <destination>  <code>
+#  Lu nativement par Cloudflare Pages. Aucune étape de build.
+# ════════════════════════════════════════════════════════════════════════
+
+# ── Gabarits de génération ──────────────────────────────────────────────
+# _template-metier.html et _template-caisse.html sont les gabarits que
+# build-metiers.mjs et build-caisses.mjs remplissent pour produire les 34
+# pages métier et caisse. Ils doivent rester dans le dépôt, à la racine,
+# là où les builders les lisent — mais ils n'ont rien à faire sur le site.
+#
+# Servis, ils représentaient 111 Ko et 57 Ko de contenu quasi identique aux
+# pages qu'ils produisent, avec des jetons {{TITLE}} en clair. Ni dans le
+# sitemap ni liés nulle part, mais indexables : exactement la duplication
+# que l'ajout de 404.html visait à réduire.
+#
+# Une tentative précédente les avait renommés avec un point initial, en
+# supposant que Cloudflare Pages ne publie pas les fichiers cachés. C'EST
+# FAUX, et mesuré : /.template-metier répondait 200 avec les 111 Ko. Le
+# renommage n'a été qu'un changement d'adresse. D'où cette approche-ci.
+#
+# 301 plutôt que noindex : la redirection permanente dit que le contenu
+# n'existe plus à cette adresse, au lieu de demander poliment qu'on ne
+# l'indexe pas. Le doublon disparaît, il n'est pas seulement masqué.
+/_template-metier        /  301
+/_template-metier.html   /  301
+/_template-caisse        /  301
+/_template-caisse.html   /  301
