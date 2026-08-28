@@ -931,7 +931,18 @@ async function postLeadToCrm(env, payload) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Ingest-Token': token,
+        /* `Authorization: Bearer` — le seul en-tête que le CRM lit.
+
+           Cet appel portait `X-Ingest-Token`, et le CRM n'en a jamais
+           entendu parler : sa garde lit `Authorization`, échoue à y
+           trouver un jeton, et refuse en 401 avant même de comparer quoi
+           que ce soit. Aucun lead n'est donc jamais passé.
+
+           La panne était invisible des deux côtés : ici l'échec ne vit que
+           dans un journal de tâche de fond, et là-bas un 401 ressemble à
+           n'importe quel appel non authentifié. Elle n'a été trouvée qu'en
+           confrontant les deux dépôts. */
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify(payload),
     });
