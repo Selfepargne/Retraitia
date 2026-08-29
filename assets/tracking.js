@@ -15,8 +15,9 @@
    ── CE QU'IL FAIT, DANS L'ORDRE ───────────────────────────────────────
    1. lit utm_*, gclid, ?src=, le référent et la page d'atterrissage ;
    2. en déduit canal, profession, caisse, statut, type et page d'entrée ;
-   3. conserve TROIS contextes — le premier (90 j), le courant, et
-      l'attribution publicitaire gelée à l'entrée dans la session ;
+   3. conserve QUATRE contextes — le premier (90 j), le courant,
+      l'attribution publicitaire gelée à l'entrée, et la page de lancement
+      du simulateur gelée au premier ?src= reconnu ;
    4. enveloppe gtag pour que TOUS les événements portent les dimensions ;
    5. expose window.RetraitiaTracking pour le simulateur.
 
@@ -74,7 +75,7 @@
   var CAISSES = ['CARPIMKO','CARMF','CAVP','CARCDSF','CNBF','CAVEC','CIPAV','SSI','CARPV'];
 
   /* ══ 2. STOCKAGE ═════════════════════════════════════════════════════
-     Deux contextes, deux durées de vie, deux usages :
+     Quatre contextes, quatre règles d'écriture, quatre usages :
 
      • PREMIER passage (localStorage, 90 jours) — c'est LUI qui décidera
        de la source du lead dans le CRM. Un prospect qui découvre en SEO,
@@ -87,13 +88,20 @@
        suivre jusqu'au simulateur.
 
      • ATTRIBUTION (sessionStorage, §7) — les paramètres publicitaires bruts,
-       gelés à la première page de la session. C'est le seul des trois qui
-       quitte le navigateur : il part avec le lead. Volontairement séparé
-       des deux autres, parce qu'il n'a pas la même règle d'écriture — et
-       parce que toucher à ctx_last casserait des dimensions GA4 en place. */
+       gelés à la première page de la session. C'est lui qui quitte le
+       navigateur : il part avec le lead. Volontairement séparé des deux
+       autres, parce qu'il n'a pas la même règle d'écriture — et parce que
+       toucher à ctx_last casserait des dimensions GA4 en place.
+
+     • LANCEMENT (sessionStorage, §7 bis) — d'où le simulateur a été ouvert,
+       gelé à la première valeur de ?src= reconnue. Séparé de l'attribution
+       parce qu'il se produit à un AUTRE moment : le gel de §7 a lieu à la
+       première page, le ?src= n'arrive qu'à l'ouverture du simulateur.
+       Les deux ressortent fusionnés par attribution().                    */
   var K_FIRST = 'retraitia_ctx_first';
   var K_LAST  = 'retraitia_ctx_last';
   var K_ATTR  = 'retraitia_attr';
+  var K_LAUNCH = 'retraitia_launch';
   var FIRST_TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
   function read(store, key) {
@@ -348,6 +356,61 @@
     write('sessionStorage', K_ATTR, memAttr);
   }
 
+  /* ══ 7 bis. PAGE DE LANCEMENT DU SIMULATEUR ══════════════════════════
+     D'où le simulateur a-t-il été ouvert. Les CTA des landings passent
+     ?src=metier-<clé> ou ?src=caisse-<CLÉ> ; on le traduit en slug d'URL
+     publique et on le gèle, lui aussi une seule fois.
+
+     ── POURQUOI UNE CLÉ SÉPARÉE, ET PAS UN CHAMP DE retraitia_attr ────
+     Le gel de §7 est atomique et se produit à la PREMIÈRE page de la
+     session. Or `src` n'apparaît que sur l'URL du simulateur, donc en
+     général sur la DEUXIÈME — la première étant la page métier d'où l'on
+     clique. Ajouté au tuple atomique, ce champ serait vide dans la
+     quasi-totalité des sessions : au moment du gel, il n'existe pas.
+
+     Le tuple d'acquisition décrit UNE arrivée ; le lancement du
+     simulateur est un autre événement, à un autre moment. Deux verrous
+     pour deux instants, un seul objet en sortie.
+
+     ── ON N'ÉCRIT QUE SUR UNE VALEUR VALIDE ──────────────────────────
+     Geler une chaîne vide dès la première page bloquerait le vrai `src`
+     qui arrive ensuite. Le verrou attend donc la première valeur
+     RECONNUE, pas la première page.
+
+     ── TRADUCTION ICI, PAS DANS LE CRM ───────────────────────────────
+     C'est ce dépôt qui connaît la correspondance entre ses gabarits et
+     ses URL publiques. Les deux préfixes ne suivent pas la même règle :
+     les métiers portent déjà leur clé en minuscules, les caisses portent
+     {{KEY}} en capitales — d'où `caisse-CARMF` pour l'URL
+     `/retraite-carmf`. Vérifié sur les deux jeux de données : 25 métiers
+     sur 25 et 9 caisses sur 9.
+
+     Une valeur inconnue des deux tables donne une chaîne vide. `src`
+     vient de l'URL, donc de n'importe qui : un slug inventé n'a rien à
+     faire dans le CRM.                                                   */
+  function launchSlugFrom(p) {
+    var src = clean(p.get('src'));   /* clean() minuscule déjà */
+
+    var m = /^metier-(.+)$/.exec(src);
+    if (m && PROFESSIONS[m[1]]) return 'retraite-' + m[1];
+
+    var c = /^caisse-(.+)$/.exec(src);
+    if (c && CAISSES.indexOf(c[1].toUpperCase()) !== -1) return 'retraite-' + c[1].toLowerCase();
+
+    /* Hubs (accueil, /retraite, /per) : ils pointent vers /simulateur sans
+       paramètre. Chaîne vide — c'est une information, pas une panne. */
+    return '';
+  }
+
+  var memLaunch = read('sessionStorage', K_LAUNCH);
+  if (!memLaunch || !memLaunch.launch_slug) {
+    var slugLancement = launchSlugFrom(params());
+    if (slugLancement) {
+      memLaunch = { ts: Date.now(), launch_slug: slugLancement };
+      write('sessionStorage', K_LAUNCH, memLaunch);
+    }
+  }
+
   /* ══ 8. LES DIMENSIONS ENVOYÉES ══════════════════════════════════════
      Le sujet vient du parcours courant : la profession de la page lue.
      Le canal vient du PREMIER passage : qui a payé pour cette personne.
@@ -417,6 +480,10 @@
       var a = read('sessionStorage', K_ATTR) || memAttr;
       var c = {};
       for (var k in a) c[k] = a[k];
+      /* Deux clés de stockage, deux instants de gel — un seul objet en
+         sortie, pour que rien en aval n'ait à connaître ce découpage. */
+      var l = read('sessionStorage', K_LAUNCH) || memLaunch;
+      c.launch_slug = (l && l.launch_slug) || '';
       return c;
     },
 

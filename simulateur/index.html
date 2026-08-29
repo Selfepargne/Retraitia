@@ -2856,6 +2856,9 @@ async function sendLead(lead) {
   const attr = leadAttribution();
   if (attr) {
     payload["Page d'entrée"] = attr.landing_slug || '—';
+    /* Page d'où le simulateur a été ouvert — distincte de la page d'arrivée.
+       Vide pour un lancement depuis un hub ou le guide PER. */
+    if (attr.launch_slug)  payload['Page de lancement'] = attr.launch_slug;
     if (attr.utm_source)   payload['Source'] = attr.utm_source;
     if (attr.utm_campaign) payload['Campagne'] = attr.utm_campaign;
     if (attr.utm_content)  payload['Annonce'] = attr.utm_content;

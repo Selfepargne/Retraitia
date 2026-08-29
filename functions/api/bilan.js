@@ -312,6 +312,11 @@ const ATTR_FIELDS = {
   utm_content: 100,
   utm_term: 100,
   landing_slug: 100,
+  /* Page d'où le simulateur a été ouvert, traduite en slug d'URL publique
+     par tracking.js (§7 bis) — le dépôt connaît la correspondance entre
+     ses gabarits et ses URL, pas le CRM. Vide pour un lancement depuis un
+     hub ou le guide PER, qui pointent vers /simulateur sans paramètre. */
+  launch_slug: 100,
 };
 
 function sanitizeAttribution(raw) {
@@ -688,6 +693,7 @@ function renderAcquisitionHtml(a, C, h) {
       ${h('Acquisition')}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F8F9FE;border:1px solid #E6EAF8;border-radius:10px;">
         ${line("Page d'entrée", a.landing_slug)}
+        ${line('Page de lancement', a.launch_slug)}
         ${line('Source', a.utm_source)}
         ${line(campagneEstUnId ? 'Campagne — ID' : 'Campagne', a.utm_campaign)}
         ${line('Annonce', a.utm_content)}
@@ -892,7 +898,8 @@ function buildCrmPayload(facts, lead, attribution) {
     utm_campaign: a.utm_campaign || '',
     utm_content:  a.utm_content || '',
     utm_term:     a.utm_term || '',
-    landing_slug: a.landing_slug || '',
+    landing_slug: a.landing_slug || '',   // page d'ARRIVÉE sur le site
+    launch_slug:  a.launch_slug || '',    // page d'où le simulateur a été OUVERT
 
     // Consentement — déclaratif, tel que recueilli dans le formulaire
     consent:   !!l.consent,
