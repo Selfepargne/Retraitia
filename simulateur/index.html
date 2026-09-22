@@ -2176,7 +2176,11 @@ const BRAND = {
   /*
     ── LES COORDONNÉES ÉTAIENT RESTÉES CELLES D'UN AUTRE CABINET ─────────
     Relevé le 23/09/2026, en cherchant l'origine d'un 404 signalé par Search
-    Console : https://retraitia.com/simulateur/www.per-patrimoine.fr
+    Console — une adresse inexistante sous /simulateur/, formée à partir du
+    site d'un autre cabinet faute de protocole dans le lien.
+
+    L'adresse n'est pas recopiée ici : Google sait extraire des URL depuis le
+    JavaScript, et l'écrire en clair maintiendrait en vie la 404 qu'on éteint.
 
     Le nom du cabinet avait été changé en « retraitia » partout, ces deux
     valeurs non. Elles ne sont pas décoratives :
