@@ -342,7 +342,30 @@
       utm_campaign: clean(p.get('utm_campaign')),
       utm_content:  clean(p.get('utm_content')),
       utm_term:     clean(p.get('utm_term')),
-      landing_slug: path || 'accueil'
+      landing_slug: path || 'accueil',
+      /* ── LE CANAL, ET POURQUOI IL VIENT DU PREMIER CONTACT ──────────
+         Ce fichier construisait DEUX objets sans que l'un profite de
+         l'autre : celui de GA4 (§6), porteur d'un `canal` qui sait
+         reconnaître le référencement naturel en lisant le référent, et
+         celui-ci, qui ne portait que gclid, utm_* et landing_slug.
+
+         Conséquence, mesurée le 22/09/2026 : un visiteur venu de Google
+         en organique arrivait dans le CRM avec la source « Site web »,
+         indiscernable d'un favori. L'option « SEO » existait dans la
+         base, la règle qui l'aurait remplie aussi — et rien ne pouvait
+         jamais la déclencher, aucun moteur n'ajoutant d'UTM à ses liens.
+         On aurait pu regarder la colonne six mois et conclure que le
+         référencement n'apporte rien.
+
+         `first.canal` plutôt que le canal de la session : GA4 rapporte
+         sur le premier contact (§9), et le CRM énonce la même règle.
+         Les faire diverger rendrait toute comparaison entre les deux
+         indéfendable — on ne saurait plus lequel croire.
+
+         Le CRM ne lui accorde PAS le droit de conclure à Google Ads :
+         cette valeur vient du navigateur, où tout se réécrit, et seul un
+         gclid prouve un clic payé. */
+      canal:        first.canal || ''
     };
   }
 
@@ -472,7 +495,8 @@
 
     /**
      * Attribution publicitaire gelée à l'entrée dans la session (§7).
-     * { ts, gclid, utm_source, utm_campaign, utm_content, utm_term, landing_slug }
+     * { ts, gclid, utm_source, utm_campaign, utm_content, utm_term,
+     *   landing_slug, canal }
      * Toujours un objet — jamais null : `landing_slug` vaut au minimum
      * « accueil », pour qu'un appelant n'ait pas à se protéger.
      */

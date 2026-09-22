@@ -317,6 +317,16 @@ const ATTR_FIELDS = {
      ses gabarits et ses URL, pas le CRM. Vide pour un lancement depuis un
      hub ou le guide PER, qui pointent vers /simulateur sans paramètre. */
   launch_slug: 100,
+  /* Canal du premier contact, calculé par tracking.js à partir du référent et
+     d'utm_medium — `seo`, `direct`, `referral`, `email`, `google_ads`.
+
+     C'est l'un des deux endroits qui auraient silencieusement annulé le travail
+     fait à la source : l'assainissement recopie champ par champ, et une clé
+     absente de cette liste disparaît sans un mot. Le filtrage est voulu — un
+     client bricolé ne doit pas pouvoir injecter de clés dans un e-mail que le
+     cabinet va lire — mais il signifie qu'un champ neuf s'ajoute ICI autant
+     qu'à la source. */
+  canal: 40,
 };
 
 function sanitizeAttribution(raw) {
@@ -689,9 +699,27 @@ function renderAcquisitionHtml(a, C, h) {
   const campagneEstUnId = /^\d+$/.test(a.utm_campaign || '');
   const aucunParam = !a.gclid && !a.utm_source && !a.utm_campaign && !a.utm_content && !a.utm_term;
 
+  /* Le canal en toutes lettres. Le conseiller lisait « visite directe, SEO ou
+     lien nu » — trois hypothèses pour un seul lead, alors que le site avait
+     tranché à l'arrivée sans que personne ne transmette sa réponse. */
+  const CANAL_LISIBLE = {
+    seo:        'Référencement naturel (SEO)',
+    direct:     'Visite directe',
+    referral:   'Lien depuis un autre site',
+    email:      'E-mail',
+    meta_ads:   'Publicité Meta',
+    linkedin_ads: 'Publicité LinkedIn',
+    /* Le site l'a déduit d'un utm_medium payant, mais sans gclid la remontée
+       de conversion vers Google Ads est impossible : le dire évite de chercher
+       un identifiant qui n'existe pas. */
+    google_ads: 'Google Ads — sans gclid',
+  };
+  const canal = CANAL_LISIBLE[a.canal] || a.canal || '';
+
   return `
       ${h('Acquisition')}
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F8F9FE;border:1px solid #E6EAF8;border-radius:10px;">
+        ${line('Canal', a.gclid ? 'Google Ads — clic payé' : canal)}
         ${line("Page d'entrée", a.landing_slug)}
         ${line('Page de lancement', a.launch_slug)}
         ${line('Source', a.utm_source)}
@@ -699,9 +727,9 @@ function renderAcquisitionHtml(a, C, h) {
         ${line('Annonce', a.utm_content)}
         ${line('Mot-clé', a.utm_term)}
         ${line('gclid', a.gclid, true)}
-        ${aucunParam ? `
+        ${aucunParam && !canal ? `
         <tr><td style="padding:9px 14px;font:400 13px/1.5 Arial,Helvetica,sans-serif;color:#55608B;">
-          Aucun param&egrave;tre publicitaire &mdash; visite directe, SEO ou lien nu.
+          Aucun param&egrave;tre publicitaire, et canal non mesur&eacute;.
         </td></tr>` : ''}
         ${a.gclid && !a.utm_campaign ? `
         <tr><td style="padding:9px 14px;font:400 12px/1.5 Arial,Helvetica,sans-serif;color:#55608B;">
@@ -900,6 +928,12 @@ function buildCrmPayload(facts, lead, attribution) {
     utm_term:     a.utm_term || '',
     landing_slug: a.landing_slug || '',   // page d'ARRIVÉE sur le site
     launch_slug:  a.launch_slug || '',    // page d'où le simulateur a été OUVERT
+    /* Canal du premier contact. Le CRM s'en sert pour la source du prospect,
+       en deuxième position seulement : le gclid garde le dernier mot, et ce
+       canal-ci n'a pas le droit de conclure à Google Ads — il vient du
+       navigateur, et un lead organique compté comme payant fausserait le ROAS
+       sur lequel le cabinet décide de son budget. */
+    canal:        a.canal || '',
 
     // Consentement — déclaratif, tel que recueilli dans le formulaire
     consent:   !!l.consent,
