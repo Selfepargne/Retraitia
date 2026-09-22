@@ -11,7 +11,17 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 // ── 1. Configuration (le SEUL endroit pour le domaine et les hubs fixes) ─
 const BASE_URL = 'https://retraitia.com';
-const HUB_URLS = [`${BASE_URL}/`, `${BASE_URL}/retraite`]; // un seul hub SEO : /retraite
+// Les pages fixes déclarées au sitemap. Mentions légales et politique de
+// confidentialité n'y figurent pas, et c'est voulu : elles portent du texte
+// obligatoire, pas du contenu qu'on cherche à positionner.
+//
+// `/per` a été ajoutée le 23/09/2026. Elle manquait — relevé en comparant le
+// dépôt au sitemap réellement servi — alors qu'elle répond en 200, porte
+// `index,follow` et un titre écrit pour la recherche (« PER : comment
+// fonctionne le Plan Épargne Retraite ? »). Une page qui demande à être
+// indexée et qu'on ne déclare pas est une demi-décision : elle ne dépend plus
+// que des liens internes pour être trouvée.
+const HUB_URLS = [`${BASE_URL}/`, `${BASE_URL}/retraite`, `${BASE_URL}/per`];
 
 // ── 2. Lecture des manifestes ────────────────────────────────────────────
 function readManifest(path) {
