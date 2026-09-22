@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
 
+# ── /cdn-cgi/ : les chemins internes de Cloudflare ──────────────────────
+# Relevé le 23/09/2026 dans Search Console, motif « Introuvable (404) » :
+# https://retraitia.com/cdn-cgi/l/email-protection
+#
+# Cloudflare remplace les adresses e-mail du HTML par un lien vers ce chemin
+# (fonction « Email Address Obfuscation »). Ce n'est pas une page : elle ne
+# répond qu'à son propre script, et rend 404 à un robot. Rien n'est cassé
+# côté site — mais c'est du budget d'exploration dépensé pour rien, et une
+# ligne d'erreur permanente dans un rapport qu'on veut pouvoir lire d'un
+# coup d'œil.
+#
+# Cloudflare recommande lui-même d'exclure ce préfixe : aucune page utile n'y
+# vit, il est réservé à ses services.
+Disallow: /cdn-cgi/
+
 Sitemap: https://retraitia.com/sitemap.xml

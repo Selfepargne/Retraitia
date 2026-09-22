@@ -2122,7 +2122,11 @@ header #brand-logo { height: 100px !important; }
 
     <div class="lf-line">
       Pour toute question concernant vos données personnelles ou votre simulation, vous pouvez nous contacter à :
-      <a href="mailto:Contact@per-patrimoine.fr">Contact@per-patrimoine.fr</a> ou au 07 67 99 59 45.
+      <!-- Écrite en dur, donc restée hors du changement de marque. Le
+           téléphone est laissé tel quel : il n'apparaît nulle part ailleurs
+           sur le site, et inventer un numéro de contact serait pire que d'en
+           afficher un à vérifier. -->
+      <a href="mailto:contact@retraitia.com">contact@retraitia.com</a> ou au 07 67 99 59 45.
     </div>
 
     <div class="lf-line lf-note">Version du simulateur : Retraitia • Les calculs sont réalisés selon la réglementation connue à la date de la simulation et sont susceptibles d'évoluer en cas de modification législative ou réglementaire.</div>
@@ -2169,8 +2173,31 @@ const BRAND = {
   // Affichage uniquement (pied du bilan, coordonnées). N'est PLUS le
   // destinataire des e-mails : celui-ci vient de MAIL_TO côté serveur, pour
   // que le navigateur ne puisse pas désigner qui reçoit un lead.
-  email:       'Contact@per-patrimoine.fr',
-  website:     'www.per-patrimoine.fr',
+  /*
+    ── LES COORDONNÉES ÉTAIENT RESTÉES CELLES D'UN AUTRE CABINET ─────────
+    Relevé le 23/09/2026, en cherchant l'origine d'un 404 signalé par Search
+    Console : https://retraitia.com/simulateur/www.per-patrimoine.fr
+
+    Le nom du cabinet avait été changé en « retraitia » partout, ces deux
+    valeurs non. Elles ne sont pas décoratives :
+
+    - `email` alimente la mention RGPD — le texte invitait le visiteur à
+      exercer ses droits d'accès et d'effacement « en écrivant à l'adresse du
+      cabinet », lien `mailto:` vers per-patrimoine ;
+    - `website` alimentait le lien « politique de confidentialité », sans
+      protocole, donc résolu **relativement** : le clic menait à une 404 de
+      retraitia.com. C'est l'URL que Google a remontée ;
+    - les deux partent aussi dans le PDF du bilan (§ payload), donc chez
+      chaque prospect.
+
+    L'adresse retenue est celle que portent déjà `mentions-legales.html` et
+    `confidentialite.html` : elle n'est pas devinée, elle est déjà publiée.
+  */
+  email:       'contact@retraitia.com',
+  website:     'https://retraitia.com',
+  /* Distincte de `website` : le lien de la mention RGPD s'annonce « politique
+     de confidentialité » et doit y mener. */
+  privacyUrl:  'https://retraitia.com/confidentialite',
 
   // ── CTA ──────────────────────────────────────────────────────
   ctaUrl:      'https://calendly.com/simulateur-retraitia/30min',
@@ -2253,7 +2280,11 @@ function applyBrand() {
 
   // ── Mentions RGPD (page Coordonnées) — nom cabinet, lien & e-mail ──
   document.querySelectorAll('.rgpd-cabinet').forEach(el => { el.textContent = b.name; });
-  document.querySelectorAll('.rgpd-link').forEach(el => { if (b.website) el.href = b.website; });
+  /* Le lien s'annonce « politique de confidentialité » : il doit mener à la
+     politique de confidentialité, pas à la racine du site. Il prenait
+     `b.website` faute de mieux — un texte qui promet une page et en ouvre une
+     autre est un défaut à part entière, et ici c'est une mention RGPD. */
+  document.querySelectorAll('.rgpd-link').forEach(el => { el.href = b.privacyUrl; });
   document.querySelectorAll('.rgpd-email').forEach(el => {
     el.textContent = b.email;
     if (el.tagName === 'A') el.href = 'mailto:' + b.email;
