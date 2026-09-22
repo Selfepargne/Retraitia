@@ -6,15 +6,29 @@
 <link rel="icon" type="image/png" href="/favicon.png">
 <title>Retraite par métier : 25 guides pour libéraux, indépendants &amp; artisans | retraitia</title>
 <meta name="description" content="Professions de santé, libérales, indépendants, artisans et commerçants : découvrez les spécificités de votre régime de retraite (CARMF, CARPIMKO, SSI, CIPAV…) et obtenez une estimation personnalisée, gratuite et sans inscription.">
-<link rel="canonical" href="https://retraitia.fr/retraite">
+<!--
+  Le domaine est .com, et cette page annonçait .fr — 23/09/2026.
+
+  Relevé dans Search Console : sur les 37 URL du sitemap, celle-ci était la
+  seule dont la canonique désignait un autre domaine. Et `retraitia.fr` ne
+  résout pas : elle disait donc à Google « la vraie version de cette page vit
+  ailleurs », en pointant vers le vide.
+
+  C'est le hub métier — la page d'où partent les 25 guides, et l'un des trois
+  seuls hubs du sitemap. Une canonique fausse ici ne se voit pas : la page
+  s'affiche normalement, elle cesse simplement d'exister pour la recherche.
+-->
+<link rel="canonical" href="https://retraitia.com/retraite">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="retraitia">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:title" content="Comprendre sa retraite selon son métier — 25 guides | retraitia">
 <meta property="og:description" content="Professions libérales, indépendants, artisans et commerçants : les spécificités de votre régime de retraite et une estimation personnalisée gratuite.">
-<meta property="og:url" content="https://retraitia.fr/retraite">
-<meta property="og:image" content="https://retraitia.fr/logo.png">
+<meta property="og:url" content="https://retraitia.com/retraite">
+<!-- L'image de partage pointait elle aussi vers le domaine mort : tout lien
+     vers cette page, sur LinkedIn ou WhatsApp, s'affichait sans visuel. -->
+<meta property="og:image" content="https://retraitia.com/logo.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,13 +44,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Accueil",
-      "item": "https://retraitia.fr/"
+      "item": "https://retraitia.com/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Guides retraite par métier",
-      "item": "https://retraitia.fr/retraite"
+      "item": "https://retraitia.com/retraite"
     }
   ]
 }

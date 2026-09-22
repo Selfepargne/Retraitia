@@ -4,6 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulateur Retraite — retraitia</title>
+<!--
+  ── LA CANONIQUE, ET LES 17 DOUBLONS QU'ELLE FERME ──────────────────────
+  Relevé dans Search Console le 23/09/2026 : « Page en double sans URL
+  canonique sélectionnée par l'utilisateur — 17 pages ». Cette page n'en
+  portait aucune.
+
+  Or chaque bouton du site y mène avec son propre paramètre :
+  /simulateur?src=metier-pharmacien, ?src=metier-medecin, ?src=caisse-carmf…
+  Pour Google ce sont autant d'adresses distinctes servant exactement le même
+  contenu. Sans canonique, il choisit lui-même laquelle garder et écarte les
+  autres — d'où les doublons, et une autorité diluée sur autant d'URL.
+
+  Le paramètre reste utile et continue de fonctionner : c'est lui qui porte
+  `launch_slug` jusqu'au CRM, et qui dit depuis quelle page le prospect a
+  lancé sa simulation. Il n'a simplement rien à voir avec ce que Google doit
+  indexer — une seule page de simulateur existe.
+-->
+<link rel="canonical" href="https://retraitia.com/simulateur/">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
