@@ -337,7 +337,29 @@
                  .toLowerCase();
     return {
       ts:           Date.now(),
-      gclid:        rawParam(p, 'gclid'),
+      /* ── LE GCLID SURVIT À LA SESSION ────────────────────────────────
+         Il ne se lisait que dans l'URL du moment. Un visiteur qui clique
+         une annonce lundi et revient signer jeudi par un favori arrivait
+         donc SANS gclid — et le CRM ne pouvait plus renvoyer sa vente à
+         Google (`conversions-google-ads.ts` a le gclid pour seule clé).
+
+         Ce n'est pas une question d'attribution : le cabinet sait d'où
+         vient le client. C'est l'algorithme d'enchères qui n'apprend
+         jamais que ce mot-clé a produit une signature, et qui continue
+         d'arbitrer un budget en croyant ce clic stérile.
+
+         L'URL d'abord — un clic frais l'emporte, c'est lui que Google
+         doit créditer — puis le gclid du premier contact.
+
+         Les deux fenêtres coïncident déjà, et ce n'est pas un hasard :
+         FIRST_TTL_MS vaut 90 jours ici, FENETRE_JOURS vaut 90 dans le
+         CRM, parce que Google refuse un clic importé au-delà. Le
+         repêchage couvre exactement la période encore acceptée.
+
+         Limite : même appareil, même navigateur. Un clic sur mobile
+         suivi d'une signature sur ordinateur reste perdu — rien ici ne
+         peut y remédier. */
+      gclid:        rawParam(p, 'gclid') || first.gclid || '',
       utm_source:   clean(p.get('utm_source')),
       utm_campaign: clean(p.get('utm_campaign')),
       utm_content:  clean(p.get('utm_content')),
