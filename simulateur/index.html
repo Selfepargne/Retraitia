@@ -2122,11 +2122,10 @@ header #brand-logo { height: 100px !important; }
 
     <div class="lf-line">
       Pour toute question concernant vos données personnelles ou votre simulation, vous pouvez nous contacter à :
-      <!-- Écrite en dur, donc restée hors du changement de marque. Le
-           téléphone est laissé tel quel : il n'apparaît nulle part ailleurs
-           sur le site, et inventer un numéro de contact serait pire que d'en
-           afficher un à vérifier. -->
-      <a href="mailto:contact@retraitia.com">contact@retraitia.com</a> ou au 07 67 99 59 45.
+      <!-- Écrite en dur, donc restée hors du changement de marque : e-mail et
+           téléphone étaient ceux de per-patrimoine. Corrigés les 22 et
+           23/09/2026, le numéro sur confirmation du cabinet. -->
+      <a href="mailto:contact@retraitia.com">contact@retraitia.com</a> ou au 07 63 76 68 83.
     </div>
 
     <div class="lf-line lf-note">Version du simulateur : Retraitia • Les calculs sont réalisés selon la réglementation connue à la date de la simulation et sont susceptibles d'évoluer en cas de modification législative ou réglementaire.</div>
@@ -2169,7 +2168,10 @@ const BRAND = {
   border:       '#CED5F3',   // couleur des bordures
 
   // ── Coordonnées cabinet ──────────────────────────────────────
-  phone:       '07 67 99 59 45',
+  /* Numéro du cabinet, confirmé par lui le 23/09/2026. Le précédent était
+     resté de la marque per-patrimoine, comme l'e-mail et le site corrigés la
+     veille — il partait dans le PDF du bilan de chaque prospect. */
+  phone:       '07 63 76 68 83',
   // Affichage uniquement (pied du bilan, coordonnées). N'est PLUS le
   // destinataire des e-mails : celui-ci vient de MAIL_TO côté serveur, pour
   // que le navigateur ne puisse pas désigner qui reçoit un lead.
